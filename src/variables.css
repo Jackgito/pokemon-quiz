@@ -1,0 +1,13 @@
+/* To access these colors in other CSS files do this: var(--accent-color) */
+/* Placeholder colors */
+:root {
+  --background-color: #f5f5dc;
+  --background-color-dark: #e0d8a6;
+  --primary-color: #ffcc00;
+  --secondary-color: #3b4cca;
+  --accent-color: #ff5349;
+  --text-color: #2a2a2a;
+  --text-color-dark: #ffffff;
+  --incorrect-color: #e63946;
+  --correct-color: #06d6a0;
+}

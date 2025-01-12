@@ -49,8 +49,6 @@ To be added
 ---
 
 ## Directory Structure
-
-- **frontend/**: Contains all client-side code, including:
   - **index.html** and **main.jsx**: Entry points to the application, responsible for selecting which page to display.
   - **pages/**: Contains each page of the application. Pages are rendered using `index.jsx`.
   - **components/**: Reusable components used across the application. Page-specific components are located within their respective page folders.

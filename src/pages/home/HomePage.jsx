@@ -1,14 +1,17 @@
 //import React from 'react';
-import TextStuff from "../learning/TextStuff.jsx";
-import ButtonStuff from "../learning/ButtonStuff.jsx";
-import InputStuff from "../learning/InputStuff.jsx";
+
+import LayoutStuff from "../learning/LayoutStuff.jsx";
+import {Box} from "@mui/material";
+
+
+
+
 const HomePage = () => {
+
   return (
-    <>
-        <TextStuff/>
-        <ButtonStuff/>
-        <InputStuff/>
-    </>
+      <Box>
+          <LayoutStuff/>
+      </Box>
   );
 };
 

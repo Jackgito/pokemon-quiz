@@ -1,21 +1,26 @@
 import { useState, useEffect } from 'react';
-import PokemonContainer from './PokemonContainer/PokemonContainer';
-import QuestionTimer from './QuestionTimer/QuestionTimer';
-import QuestionCard from './QuestionCard/QuestionCard';
+import PokemonCountdown from './PokemonCountdown/PokemonCountdown';
+import QuestionCard from './QuestionCard/questionCard';
 import useFetchPokemonData from '../../hooks/useFetchPokemonData';
+import getBackgroundStyle from './utils/getBackgroundColor';
+import { useSettings } from '../../context/SettingsProvider';
+
+import './QuizPage.css';
 
 const QuizPage = () => {
-  const [remainingPokemon, setRemainingPokemon] = useState([]); // List of Pokémon that haven't been guessed yet
-  const [currentPokemon, setCurrentPokemon] = useState(null); // Current Pokémon to guess
-  const [isSilhouette, setIsSilhouette] = useState(true); // Whether to show the Pokémon image or silhouette
-  const [score, setScore] = useState(0); // Number of correct guesses
-  const [key, setKey] = useState(0); // Key for resetting timer
-  const [choices, setChoices] = useState([]); // Choices for the current question
+  const [remainingPokemon, setRemainingPokemon] = useState([]);
+  const [currentPokemon, setCurrentPokemon] = useState(null);
+  const [isSilhouette, setIsSilhouette] = useState(true);
+  const [score, setScore] = useState(0);
+  const [animateScore, setAnimateScore] = useState(false); // Track score animation
+  const [key, setKey] = useState(0);
+  const [choices, setChoices] = useState([]);
 
   const { pokemonData, loading, error } = useFetchPokemonData();
 
+  const { difficulty } = useSettings();
+
   useEffect(() => {
-    // Initialize the list of remaining Pokémon and select a random one
     if (pokemonData?.length > 0) {
       setRemainingPokemon([...pokemonData]);
       const randomIndex = Math.floor(Math.random() * pokemonData.length);
@@ -25,11 +30,13 @@ const QuizPage = () => {
 
   useEffect(() => {
     if (currentPokemon && remainingPokemon.length > 0) {
-      setChoices(generateQuestionChoices(5));
+      setChoices(generateQuestionChoices());
     }
   }, [currentPokemon, remainingPokemon]);
 
-  const generateQuestionChoices = (choiceAmount) => {
+  const generateQuestionChoices = () => {
+    let choiceAmount = 4;
+    if (difficulty === 'Normal') { choiceAmount = 5; }
     const correctAnswer = currentPokemon?.name;
     const choices = [{ answer: correctAnswer, correctAnswer: true }];
 
@@ -38,13 +45,11 @@ const QuizPage = () => {
       const randomPokemon = remainingPokemon[randomIndex];
       const wrongAnswer = randomPokemon?.name;
 
-      // Ensure the wrong answer is not the same as the correct answer or any already selected wrong answers
       if (!choices.some(choice => choice.answer === wrongAnswer)) {
         choices.push({ answer: wrongAnswer, correctAnswer: false });
       }
     }
 
-    // Shuffle the choices array to randomize the order
     for (let i = choices.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [choices[i], choices[j]] = [choices[j], choices[i]];
@@ -53,9 +58,14 @@ const QuizPage = () => {
     return choices;
   };
 
+  const restartTimer = () => {
+    setKey((prevKey) => prevKey + 1);
+  };
+
   const moveToNextQuestion = (choice) => {
     setIsSilhouette(false);
     if (choice?.correctAnswer) {
+      setAnimateScore(true); // Trigger score animation
       setScore((prevScore) => prevScore + 1);
     }
     setTimeout(() => {
@@ -65,27 +75,48 @@ const QuizPage = () => {
       const randomIndex = Math.floor(Math.random() * remainingPokemon.length);
       setCurrentPokemon(remainingPokemon[randomIndex]);
       setIsSilhouette(true);
-      setKey((prevKey) => prevKey + 1);
+      restartTimer();
     }, 3000);
   };
+
+  // Reset the animation class for the score after it has been applied
+  useEffect(() => {
+    if (animateScore) {
+      const timeout = setTimeout(() => setAnimateScore(false), 200); // Animation duration
+      return () => clearTimeout(timeout);
+    }
+  }, [animateScore]);
 
   if (loading) return <div>Loading Pokémon...</div>;
   if (error) return <div>Error: {error}</div>;
 
+  if (!choices) return null;
+
+  let timerDuration = 15;
+  if (difficulty === 'Normal') { timerDuration = 10; }
+
   return (
-    <div className="page-container">
-      <QuestionTimer
-        initialTime={10}
-        onTimeUp={moveToNextQuestion}
+    <div
+      className="page-container"
+      style={!isSilhouette ? { background: getBackgroundStyle(currentPokemon?.types) } : {}}
+    >
+      <PokemonCountdown
+        duration={timerDuration}
+        size={350}
+        strokeWidth={10}
+        onComplete={moveToNextQuestion}
+        pause={!isSilhouette}
         key={key}
+        isSilhouette={isSilhouette}
+        pokemonImage={currentPokemon?.imageUrl}
       />
-      <PokemonContainer pokemonImage={currentPokemon?.imageUrl} isSilhouette={isSilhouette} />
-      <QuestionCard 
-        question={"Who's that Pokemon?"} 
+      <QuestionCard
+        question={"Who's that Pokemon?"}
         choices={choices}
         onAnswer={moveToNextQuestion}
       />
-      <div>Score: {score}</div>
+      <h2>Score</h2>
+      <h2 className={`score ${animateScore ? 'animate' : ''}`}>{score}</h2>
     </div>
   );
 };

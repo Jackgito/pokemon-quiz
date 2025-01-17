@@ -1,0 +1,59 @@
+.question-timer-container {
+  position: relative;
+  display: inline-block;
+}
+
+.question-timer-svg {
+  display: block;
+  z-index: 2;
+}
+
+.question-timer-number {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the number */
+}
+
+.question-timer-text {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.pokemon-container {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -197px); /* Move the container up */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pokemon-image {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pokemon-image.silhouette {
+  filter: brightness(0) grayscale(1);
+}
+
+.pokemon-image.no-silhoutte {
+  transition: filter 0.3s ease-in-out;
+}
+
+
+.pokemon-container {
+  padding: 20px;
+  border-radius: 50%;
+  width: 300px;
+  height: 300px;
+  margin: 32px auto;
+}

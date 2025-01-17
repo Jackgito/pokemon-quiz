@@ -26,6 +26,7 @@ const useFetchPokemonData = () => {
         id: pokemon.id,
         name: capitalize(pokemon.name),
         imageUrl: pokemon.sprites?.front_default || null,
+        types: pokemon.types.map((typeInfo) => capitalize(typeInfo.type.name))
       }));
 
       setPokemonData(data);

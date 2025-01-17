@@ -1,13 +1,12 @@
-/* To access these colors in other CSS files do this: var(--accent-color) */
-/* Placeholder colors */
+/* Color palette */
 :root {
-  --background-color: #f5f5dc;
-  --background-color-dark: #e0d8a6;
-  --primary-color: #ffcc00;
-  --secondary-color: #3b4cca;
-  --accent-color: #ff5349;
-  --text-color: #2a2a2a;
-  --text-color-dark: #ffffff;
-  --incorrect-color: #e63946;
-  --correct-color: #06d6a0;
+  --background-color: #2f2f2f;
+  --background-color-dark: #1e1e1e;
+  --primary-color: #222224;
+  --secondary-color: #ffffff;
+  --accent-color: #ee1515;
+  --text-color: #ffffff;
+  --text-color-dark: #222224;
+  --incorrect-color: #e94f4f;
+  --correct-color: #41bd41;
 }

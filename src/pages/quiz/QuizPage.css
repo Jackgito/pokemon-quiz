@@ -4,4 +4,15 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
+  text-align: center;
+  transition: background-color 0.5s ease;
+}
+
+.score {
+  font-size: 2rem;
+  transition: transform 0.2s ease;
+}
+
+.score.animate {
+  transform: scale(1.8);
 }

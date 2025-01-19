@@ -1,7 +1,5 @@
 /* eslint-disable react/prop-types */
 
-import { useState, useEffect } from 'react';
-
 import MultipleChoiceAnswers from './MultipleChoiceAnswers';
 import WrittenAnswer from './WrittenAnswer';
 
@@ -9,19 +7,13 @@ import { useSettings } from '../../../context/SettingsProvider';
 
 import './questionCard.css';
 
-const QuestionCard = ({ question, choices, onAnswer }) => {
-  const [isDisabled, setIsDisabled] = useState(false);
+const QuestionCard = ({ question, choices, onAnswer, isDisabled }) => {
 
   const { difficulty } = useSettings();
-
-  useEffect(() => {
-    setIsDisabled(false);
-  }, [choices]);
 
   // Pass the selected answer to the parent component
   const handleAnswer = (choice) => {
     if (isDisabled) return;
-    setIsDisabled(true); // Disable the answering after the user has submitted an answer
     onAnswer(choice); // Pass the selected answer to the parent component
   };
 

@@ -1,10 +1,17 @@
-//import React from 'react';
+import HomePageLayout from "./HomePageLayout.jsx";
+import HomeTheme from "../../themes/HomeTheme.jsx";
+import {CssBaseline, ThemeProvider} from "@mui/material";
+
 
 const HomePage = () => {
+  //Import the Homepages theme
+  const theme = HomeTheme();
+
   return (
-    <div>
-      <h1>Home page</h1>
-    </div>
+      <ThemeProvider theme={theme}>
+        <CssBaseline/>
+        <HomePageLayout/>
+      </ThemeProvider>
   );
 };
 

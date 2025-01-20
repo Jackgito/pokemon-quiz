@@ -5,6 +5,7 @@ import './PokemonCountdown.css';
 
 // This component displays a Pokemon and countdown timer around it
 const PokemonCountdown = ({ duration, size, strokeWidth, onComplete, pause, pokemonImage, isSilhouette }) => {
+  
   const [timeLeft, setTimeLeft] = useState(duration);
   const requestRef = useRef();
   const startTimeRef = useRef();

@@ -3,6 +3,8 @@ import PokemonCountdown from './PokemonCountdown/PokemonCountdown';
 import QuestionCard from './QuestionCard/questionCard';
 import useFetchPokemonData from '../../hooks/useFetchPokemonData';
 import getBackgroundStyle from './utils/getBackgroundColor';
+import generateQuestionChoices from './utils/generateQuestionChoices';
+import GameOver from './GameOver/GameOver';
 import { useSettings } from '../../context/SettingsProvider';
 
 import './QuizPage.css';
@@ -15,11 +17,13 @@ const QuizPage = () => {
   const [animateScore, setAnimateScore] = useState(false); // Track score animation
   const [key, setKey] = useState(0);
   const [choices, setChoices] = useState([]);
+  const [gameEnded, setGameEnded] = useState(false);
 
   const { pokemonData, loading, error } = useFetchPokemonData();
 
   const { difficulty } = useSettings();
 
+  // Initialize the game with a random Pokémon
   useEffect(() => {
     if (pokemonData?.length > 0) {
       setRemainingPokemon([...pokemonData]);
@@ -28,56 +32,12 @@ const QuizPage = () => {
     }
   }, [pokemonData]);
 
+  // Generate new question choices when the player answers correctly
   useEffect(() => {
     if (currentPokemon && remainingPokemon.length > 0) {
-      setChoices(generateQuestionChoices());
+      setChoices(generateQuestionChoices(currentPokemon, remainingPokemon, difficulty));
     }
-  }, [currentPokemon, remainingPokemon]);
-
-  const generateQuestionChoices = () => {
-    let choiceAmount = 4;
-    if (difficulty === 'Normal') { choiceAmount = 5; }
-    const correctAnswer = currentPokemon?.name;
-    const choices = [{ answer: correctAnswer, correctAnswer: true }];
-
-    while (choices.length < choiceAmount) {
-      const randomIndex = Math.floor(Math.random() * remainingPokemon.length);
-      const randomPokemon = remainingPokemon[randomIndex];
-      const wrongAnswer = randomPokemon?.name;
-
-      if (!choices.some(choice => choice.answer === wrongAnswer)) {
-        choices.push({ answer: wrongAnswer, correctAnswer: false });
-      }
-    }
-
-    for (let i = choices.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [choices[i], choices[j]] = [choices[j], choices[i]];
-    }
-
-    return choices;
-  };
-
-  const restartTimer = () => {
-    setKey((prevKey) => prevKey + 1);
-  };
-
-  const moveToNextQuestion = (choice) => {
-    setIsSilhouette(false);
-    if (choice?.correctAnswer) {
-      setAnimateScore(true); // Trigger score animation
-      setScore((prevScore) => prevScore + 1);
-    }
-    setTimeout(() => {
-      setRemainingPokemon((prevRemainingPokemon) =>
-        prevRemainingPokemon.filter((pokemon) => pokemon.id !== currentPokemon.id)
-      );
-      const randomIndex = Math.floor(Math.random() * remainingPokemon.length);
-      setCurrentPokemon(remainingPokemon[randomIndex]);
-      setIsSilhouette(true);
-      restartTimer();
-    }, 3000);
-  };
+  }, [currentPokemon, difficulty]);
 
   // Reset the animation class for the score after it has been applied
   useEffect(() => {
@@ -87,13 +47,60 @@ const QuizPage = () => {
     }
   }, [animateScore]);
 
+  const restartTimer = () => {
+    setKey((prevKey) => prevKey + 1);
+  };
+
+  // If answer is correct, increment score and move to next question. Otherwise end the game.
+  const checkAnswer = (choice) => {
+    setIsSilhouette(false);
+  
+    if (choice?.correctAnswer) {
+      setAnimateScore(true); // Trigger score animation
+      setScore((prevScore) => prevScore + 1);
+
+      // Filter the remaining Pokémon and store the result in a local variable
+      const updatedRemainingPokemon = remainingPokemon.filter((pokemon) => pokemon.id !== currentPokemon.id)
+
+      setRemainingPokemon((prevRemainingPokemon) =>
+        prevRemainingPokemon.filter((pokemon) => pokemon.id !== currentPokemon.id)
+      );
+
+      // Move to next question, unless there are no Pokémon left
+      setTimeout(() => {
+        // End the game if no Pokémon are left
+        if (updatedRemainingPokemon.length === 0) {
+          setGameEnded(true);
+        } else {
+          const randomIndex = Math.floor(Math.random() * updatedRemainingPokemon.length);
+          setCurrentPokemon(updatedRemainingPokemon[randomIndex]);
+          setIsSilhouette(true);
+          restartTimer();
+        }
+      }, 3000);
+
+    } else {
+      setGameEnded(true) // End the game if the answer is incorrect
+      return;
+    }
+  };
+  
+  const restartGame = () => {
+    setRemainingPokemon([...pokemonData]);
+    const randomIndex = Math.floor(Math.random() * pokemonData.length);
+    setCurrentPokemon(pokemonData[randomIndex]);
+    setScore(0);
+    setGameEnded(false);
+    setIsSilhouette(true);
+    restartTimer();
+  };
+
   if (loading) return <div>Loading Pokémon...</div>;
   if (error) return <div>Error: {error}</div>;
-
   if (!choices) return null;
 
   let timerDuration = 15;
-  if (difficulty === 'Normal') { timerDuration = 10; }
+  if (difficulty === 'Normal' || difficulty === 'Hard') { timerDuration = 10; }
 
   return (
     <div
@@ -104,7 +111,7 @@ const QuizPage = () => {
         duration={timerDuration}
         size={350}
         strokeWidth={10}
-        onComplete={moveToNextQuestion}
+        onComplete={checkAnswer}
         pause={!isSilhouette}
         key={key}
         isSilhouette={isSilhouette}
@@ -113,10 +120,18 @@ const QuizPage = () => {
       <QuestionCard
         question={"Who's that Pokemon?"}
         choices={choices}
-        onAnswer={moveToNextQuestion}
+        onAnswer={checkAnswer}
+        isDisabled={!isSilhouette || gameEnded}
       />
       <h2>Score</h2>
       <h2 className={`score ${animateScore ? 'animate' : ''}`}>{score}</h2>
+
+      {gameEnded && (
+        <GameOver
+          score={score}
+          restartGame={restartGame}
+        />
+      )}
     </div>
   );
 };

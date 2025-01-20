@@ -50,3 +50,29 @@ h2 {
   margin: 16px;
   margin-top: 0px;
 }
+
+/* Button animations */
+/* Wiggle */
+@keyframes incorrect {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+/* Squish */
+@keyframes correct {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1, 0.9); }
+  100% { transform: scale(1); }
+}
+
+.incorrect {
+  animation: incorrect 0.5s ease-out;
+}
+
+.correct {
+  animation: correct 0.3s ease-out;
+}
+

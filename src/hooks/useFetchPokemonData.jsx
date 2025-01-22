@@ -1,35 +1,54 @@
 import { useState, useEffect } from 'react';
+import { useSettings } from '../context/SettingsProvider';
 
-// Makes API call to PokeApi to fetch data for the first 151 Pokémon
 const useFetchPokemonData = () => {
   const [pokemonData, setPokemonData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { getSelectedGenerations } = useSettings();
 
   const capitalize = str => str.replace(/^\w/, c => c.toUpperCase());
 
-  // Fetch function defined outside of useEffect to avoid re-creating it on each render
   const fetchPokemonData = async () => {
     setLoading(true);
     setError(null);
     try {
-      const responses = await Promise.all(
-        Array.from({ length: 151 }, (_, index) =>
-          fetch(`https://pokeapi.co/api/v2/pokemon/${index + 1}/`).then(res => {
-            if (!res.ok) throw new Error(`Failed to fetch Pokémon ${index + 1}`);
-            return res.json();
-          })
-        )
-      );
+      const selectedGens = getSelectedGenerations();
+      const pokemonRanges = {
+        1: [1, 151],
+        2: [152, 251],
+        3: [252, 386],
+        4: [387, 493],
+        5: [494, 649],
+        6: [650, 721],
+        7: [722, 809],
+        8: [810, 898],
+        9: [899, 1010]
+      };
 
-      const data = responses.map(pokemon => ({
-        id: pokemon.id,
-        name: capitalize(pokemon.name),
-        imageUrl: pokemon.sprites?.front_default || null,
-        types: pokemon.types.map((typeInfo) => capitalize(typeInfo.type.name))
-      }));
+      let allPokemon = [];
+      for (const gen of selectedGens) {
+        const [start, end] = pokemonRanges[gen];
+        const responses = await Promise.all(
+          Array.from({ length: end - start + 1 }, (_, index) =>
+            fetch(`https://pokeapi.co/api/v2/pokemon/${start + index}/`).then(res => {
+              if (!res.ok) throw new Error(`Failed to fetch Pokémon ${start + index}`);
+              return res.json();
+            })
+          )
+        );
 
-      setPokemonData(data);
+        const data = responses.map(pokemon => ({
+          id: pokemon.id,
+          name: capitalize(pokemon.name),
+          imageUrl: pokemon.sprites?.front_default || null,
+          types: pokemon.types.map((typeInfo) => capitalize(typeInfo.type.name))
+        }));
+
+        allPokemon = [...allPokemon, ...data];
+      }
+
+      setPokemonData(allPokemon);
     } catch (err) {
       setError(err.message || 'Failed to fetch Pokémon data');
     } finally {
@@ -39,7 +58,7 @@ const useFetchPokemonData = () => {
 
   useEffect(() => {
     fetchPokemonData();
-  }, []); // Only run once on mount
+  }, [getSelectedGenerations]); // Re-fetch when selected generations change
 
   return { pokemonData, loading, error };
 };

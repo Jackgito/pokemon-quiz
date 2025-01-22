@@ -1,6 +1,6 @@
 import {Box, Grid2, useTheme} from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import ResponsiveAppBar from "./ResponsiveAppBar.jsx";
+import ResponsiveAppBar from "../../components/ResponsiveAppBar.jsx";
 
 const HomePageLayout = () => {
     //Import the theme that was provided in the HomePage.jsx component
@@ -12,8 +12,6 @@ const HomePageLayout = () => {
             <Grid2 container spacing={2}>
                 <Grid size={{xs:12, md:6}}>
                     <ResponsiveAppBar/>
-
-
                 </Grid>
             </Grid2>
         </Box>

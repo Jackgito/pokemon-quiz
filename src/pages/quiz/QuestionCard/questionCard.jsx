@@ -5,7 +5,7 @@ import WrittenAnswer from './WrittenAnswer';
 
 import { useSettings } from '../../../context/SettingsProvider';
 
-import './questionCard.css';
+import './QuestionCard.css';
 
 const QuestionCard = ({ question, choices, onAnswer, isDisabled }) => {
 

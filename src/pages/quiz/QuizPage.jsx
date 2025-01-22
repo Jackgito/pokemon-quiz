@@ -1,20 +1,23 @@
 import { useState, useEffect } from 'react';
 import PokemonCountdown from './PokemonCountdown/PokemonCountdown';
-import QuestionCard from './QuestionCard/questionCard';
+import QuestionCard from './QuestionCard/QuestionCard';
 import useFetchPokemonData from '../../hooks/useFetchPokemonData';
-import getBackgroundStyle from './utils/getBackgroundColor';
 import generateQuestionChoices from './utils/generateQuestionChoices';
 import GameOver from './GameOver/GameOver';
 import { useSettings } from '../../context/SettingsProvider';
+import ScoreDisplay from './ScoreDisplay/ScoreDisplay';
+import ResponsiveAppBar from '../../components/ResponsiveAppBar';
 
 import './QuizPage.css';
+
+import HomeTheme from "../../themes/HomeTheme.jsx";
+import {ThemeProvider} from "@mui/material";
 
 const QuizPage = () => {
   const [remainingPokemon, setRemainingPokemon] = useState([]);
   const [currentPokemon, setCurrentPokemon] = useState(null);
   const [isSilhouette, setIsSilhouette] = useState(true);
   const [score, setScore] = useState(0);
-  const [animateScore, setAnimateScore] = useState(false); // Track score animation
   const [key, setKey] = useState(0);
   const [choices, setChoices] = useState([]);
   const [gameEnded, setGameEnded] = useState(false);
@@ -22,6 +25,8 @@ const QuizPage = () => {
   const { pokemonData, loading, error } = useFetchPokemonData();
 
   const { difficulty } = useSettings();
+
+  const theme = HomeTheme();
 
   // Initialize the game with a random Pokémon
   useEffect(() => {
@@ -39,13 +44,6 @@ const QuizPage = () => {
     }
   }, [currentPokemon, difficulty]);
 
-  // Reset the animation class for the score after it has been applied
-  useEffect(() => {
-    if (animateScore) {
-      const timeout = setTimeout(() => setAnimateScore(false), 200); // Animation duration
-      return () => clearTimeout(timeout);
-    }
-  }, [animateScore]);
 
   const restartTimer = () => {
     setKey((prevKey) => prevKey + 1);
@@ -56,7 +54,6 @@ const QuizPage = () => {
     setIsSilhouette(false);
   
     if (choice?.correctAnswer) {
-      setAnimateScore(true); // Trigger score animation
       setScore((prevScore) => prevScore + 1);
 
       // Filter the remaining Pokémon and store the result in a local variable
@@ -103,28 +100,31 @@ const QuizPage = () => {
   if (difficulty === 'Normal' || difficulty === 'Hard') { timerDuration = 10; }
 
   return (
+    <ThemeProvider theme={theme}>
     <div
       className="page-container"
-      style={!isSilhouette ? { background: getBackgroundStyle(currentPokemon?.types) } : {}}
     >
+
+      <ResponsiveAppBar/>
+
       <PokemonCountdown
         duration={timerDuration}
-        size={350}
         strokeWidth={10}
         onComplete={checkAnswer}
         pause={!isSilhouette}
         key={key}
         isSilhouette={isSilhouette}
         pokemonImage={currentPokemon?.imageUrl}
+        currentPokemon={currentPokemon}
       />
       <QuestionCard
-        question={"Who's that Pokemon?"}
+        question={"Who's that Pokémon?"}
         choices={choices}
         onAnswer={checkAnswer}
         isDisabled={!isSilhouette || gameEnded}
       />
-      <h2>Score</h2>
-      <h2 className={`score ${animateScore ? 'animate' : ''}`}>{score}</h2>
+
+      <ScoreDisplay score={score}/>
 
       {gameEnded && (
         <GameOver
@@ -133,6 +133,7 @@ const QuizPage = () => {
         />
       )}
     </div>
+    </ThemeProvider>
   );
 };
 

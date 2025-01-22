@@ -5,16 +5,15 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from '@mui/icons-material/Settings';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import {Stack} from "@mui/material";
-import GenerationsSwitch from "./Selection/GenerationSwitch.jsx";
-import QuestionIcon from "../../themes/custom_icons/QuestionIcon.jsx";
+import GenerationsSwitch from "../pages/home/Selection/GenerationSelector.jsx";
+import QuestionIcon from "../themes/custom_icons/QuestionIcon.jsx";
 import {Close} from "@mui/icons-material";
-import DifficultySwitch from "./Selection/DifficultySwitch.jsx";
-import UserIcon from "./User/UserIcon.jsx";
-
+import DifficultySwitch from "../pages/home/Selection/DifficultySwitch.jsx";
+import UserIcon from "../pages/home/User/UserIcon.jsx";
 
 function ResponsiveAppBar() {
 

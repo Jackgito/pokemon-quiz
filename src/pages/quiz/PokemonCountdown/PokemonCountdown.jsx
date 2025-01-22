@@ -1,14 +1,26 @@
 /* eslint-disable react/prop-types */
 
 import { useState, useEffect, useRef } from 'react';
+// import getBackgroundColor from '../utils/getBackgroundColor';
 import './PokemonCountdown.css';
+import useScreenSize from '../../../hooks/useScreenSize';
 
 // This component displays a Pokemon and countdown timer around it
-const PokemonCountdown = ({ duration, size, strokeWidth, onComplete, pause, pokemonImage, isSilhouette }) => {
+const PokemonCountdown = ({ duration, strokeWidth, onComplete, pause, pokemonImage, isSilhouette }) => {
   
   const [timeLeft, setTimeLeft] = useState(duration);
+  const [size, setSize] = useState(350);
   const requestRef = useRef();
   const startTimeRef = useRef();
+  const {isMobile} = useScreenSize();
+
+  useEffect(() => {
+    if (isMobile) {
+      setSize(240);
+    } else {
+      setSize(350);
+    }
+  }, [isMobile])
 
   const animate = (time) => {
     if (startTimeRef.current === undefined) {
@@ -53,7 +65,7 @@ const PokemonCountdown = ({ duration, size, strokeWidth, onComplete, pause, poke
   const colorTransition = `rgb(${255 * (1 - timeLeft / duration)}, ${255 * (timeLeft / duration)}, 0)`;
 
   return (
-    <div className="question-timer-container" style={{ width: size, height: size }}>
+    <div className="question-timer-container">
       <svg
         className="question-timer-svg"
         width={size}
@@ -66,11 +78,13 @@ const PokemonCountdown = ({ duration, size, strokeWidth, onComplete, pause, poke
         <circle
           stroke="#e6e6e6"
           strokeWidth={strokeWidth}
-          fill="transparent"
+          // fill={!isSilhouette ? getBackgroundColor(currentPokemon?.types) : 'none'}  // Conditional fill
+          fill='transparent'
           r={radius}
           cx={size / 2}
           cy={size / 2}
         />
+
         <circle
           stroke={colorTransition}
           strokeWidth={strokeWidth}

@@ -6,7 +6,7 @@ const UserIconMenu = ({profile}) => {
         <>
             <ListItem>
                 <ListItemAvatar>
-                    <Avatar alt="Remy Sharp" src="./public/test2.png" />
+                    <Avatar alt="Remy Sharp" src="./test2.png" />
                 </ListItemAvatar>
                 <ListItemText primary={profile.first_name + " " + profile.last_name} secondary={profile.email}/>
             </ListItem>

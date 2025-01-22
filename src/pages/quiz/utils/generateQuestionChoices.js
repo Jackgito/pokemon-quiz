@@ -24,9 +24,9 @@
 */
 
 const generateQuestionChoices = (currentPokemon, remainingPokemon, difficulty) => {
-  let choiceAmount = 4;
+  let choiceAmount = 3;
   if (difficulty === 'Normal') {
-    choiceAmount = 5;
+    choiceAmount = 4;
   }
 
   // Ensure choiceAmount does not exceed the number of available Pokémon

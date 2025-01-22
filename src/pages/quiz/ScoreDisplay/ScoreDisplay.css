@@ -1,0 +1,15 @@
+.score {
+  font-size: 2rem;
+  transition: transform 0.2s ease;
+}
+
+.score.animate {
+  transform: scale(1.8);
+}
+
+.scoreRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}

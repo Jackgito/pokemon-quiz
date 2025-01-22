@@ -4,7 +4,7 @@
   padding: 20px;
   border-radius: 10px;
   max-width: 350px;
-  margin: 32px auto;
+  margin: 30px auto;
   color: var(--text-color);
 }
 
@@ -74,5 +74,18 @@ h2 {
 
 .correct {
   animation: correct 0.3s ease-out;
+}
+
+@media (max-width: 768px) {
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  .question-card {
+    margin-bottom: 0px;
+    padding-top: 4px;
+    padding-bottom: 10px;
+  }
 }
 

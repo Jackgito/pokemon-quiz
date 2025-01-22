@@ -1,18 +1,18 @@
 /* eslint-disable react/prop-types */
 
 import { useState, useEffect, useRef } from 'react';
-// import getBackgroundColor from '../utils/getBackgroundColor';
 import './PokemonCountdown.css';
+import { useSettings } from '../../../context/SettingsProvider';
+import PlaySoundButton from './PlaySoundButton';
 import useScreenSize from '../../../hooks/useScreenSize';
 
-// This component displays a Pokemon and countdown timer around it
-const PokemonCountdown = ({ duration, strokeWidth, onComplete, pause, pokemonImage, isSilhouette }) => {
-  
+const PokemonCountdown = ({ duration, strokeWidth, onComplete, pause, pokemonData, isSilhouette }) => {
   const [timeLeft, setTimeLeft] = useState(duration);
   const [size, setSize] = useState(350);
   const requestRef = useRef();
   const startTimeRef = useRef();
-  const {isMobile} = useScreenSize();
+  const { isMobile } = useScreenSize();
+  const { quizType } = useSettings();
 
   useEffect(() => {
     if (isMobile) {
@@ -20,7 +20,7 @@ const PokemonCountdown = ({ duration, strokeWidth, onComplete, pause, pokemonIma
     } else {
       setSize(350);
     }
-  }, [isMobile])
+  }, [isMobile]);
 
   const animate = (time) => {
     if (startTimeRef.current === undefined) {
@@ -41,22 +41,19 @@ const PokemonCountdown = ({ duration, strokeWidth, onComplete, pause, pokemonIma
 
   useEffect(() => {
     if (!pause) {
-      // Only start the timer if it's not paused
       requestRef.current = requestAnimationFrame(animate);
     } else {
-      // If paused, cancel the animation frame
       if (requestRef.current) {
         cancelAnimationFrame(requestRef.current);
       }
     }
-    
+
     return () => {
-      // Clean up on component unmount or when pause state changes
       if (requestRef.current) {
         cancelAnimationFrame(requestRef.current);
       }
     };
-  }, [duration, onComplete, pause]); // Re-run effect if pause changes
+  }, [duration, onComplete, pause]);
 
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
@@ -78,13 +75,11 @@ const PokemonCountdown = ({ duration, strokeWidth, onComplete, pause, pokemonIma
         <circle
           stroke="#e6e6e6"
           strokeWidth={strokeWidth}
-          // fill={!isSilhouette ? getBackgroundColor(currentPokemon?.types) : 'none'}  // Conditional fill
-          fill='transparent'
+          fill="transparent"
           r={radius}
           cx={size / 2}
           cy={size / 2}
         />
-
         <circle
           stroke={colorTransition}
           strokeWidth={strokeWidth}
@@ -98,12 +93,17 @@ const PokemonCountdown = ({ duration, strokeWidth, onComplete, pause, pokemonIma
         />
       </svg>
       <div className="pokemon-container" style={{ width: size - 58, height: size - 58 }}>
+        {quizType === 'Image' ? (
           <img
-            src={pokemonImage}
+            src={pokemonData?.imageUrl}
+            // src={pokemonData?.animationUrl}
             alt="Pokemon"
-            className={`pokemon-image ${isSilhouette ? 'silhouette' : 'no-silhoutte'}`}
+            className={`pokemon-image ${isSilhouette ? 'silhouette' : 'no-silhouette'}`}
           />
-        </div>
+        ) : (
+          <PlaySoundButton cryUrl={pokemonData?.cryUrl} />
+        )}
+      </div>
       <div className="question-timer-number">
         <span className="question-timer-text">{Math.ceil(timeLeft)}</span>
       </div>

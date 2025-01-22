@@ -8,7 +8,7 @@ const DifficultySwitch = () => {
     return (
         <Stack direction={"column"} spacing={1} padding={2}>
             <Typography variant={"Body"} color={"textSecondary"}>
-                Choose Difficulty
+                Difficulty
             </Typography>
             <ToggleButtonGroup
                 color={"primary"}
@@ -18,9 +18,9 @@ const DifficultySwitch = () => {
                 value={difficulty}
                 onChange={(event, value) => changeDifficulty(value)}
             >
-                <ToggleButton value={"Easy"}>Easy</ToggleButton>
-                <ToggleButton value={"Normal"}>Normal</ToggleButton>
-                <ToggleButton value={"Hard"}>Hard</ToggleButton>
+              <ToggleButton value={"Easy"}>Easy</ToggleButton>
+              <ToggleButton value={"Normal"}>Normal</ToggleButton>
+              <ToggleButton value={"Hard"}>Hard</ToggleButton>
             </ToggleButtonGroup>
         </Stack>
     );

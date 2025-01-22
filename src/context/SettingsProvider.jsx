@@ -11,6 +11,7 @@ const SettingsContext = createContext();
 
 const SettingsProvider = ({ children }) => {
   const [difficulty, setDifficulty] = useState('Normal'); // Easy , Normal, Hard
+  const [quizType, setQuizType] = useState('Image'); // Image, Cry
   const [generations, setGenerations] = useState([
     { name: "Gen. I", value: 1, selected: true },
     { name: "Gen. II", value: 2, selected: false },
@@ -37,7 +38,7 @@ const SettingsProvider = ({ children }) => {
 
   return (
     <SettingsContext.Provider 
-      value={{ difficulty, changeDifficulty, generations, changeGenerations, getSelectedGenerations }}>
+      value={{ difficulty, changeDifficulty, generations, changeGenerations, getSelectedGenerations, quizType, setQuizType }}>
       {children}
     </SettingsContext.Provider>
   );

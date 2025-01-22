@@ -9,7 +9,6 @@ const useScreenSize = (mobileBreakpoint = 768) => {
 
   useEffect(() => {
     const handleResize = () => {
-      console.log("Is mobile: ", window.innerWidth < mobileBreakpoint)
       setScreenSize({
         width: window.innerWidth,
         height: window.innerHeight,

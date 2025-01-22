@@ -12,7 +12,7 @@ const exampleProfile = {
     first_name: "Arttu",
     last_name: "Korpela",
     email: "arttu@email.com",
-    pic: "./public/test2.png"
+    pic: "./test2.png"
 }
 
 const UserIcon = () => {

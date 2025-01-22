@@ -1,7 +1,7 @@
 # Pokemon Quiz
 
 ## Overview
-Simple yet fun project designed and built within two weeks for the React hackathon. It uses the PokeApi to generate Pokemon themed questions and tracks the user's highscore.
+Simple yet fun project designed and built within two weeks for the React hackathon. It uses the PokeApi to generate Pokémon themed questions and tracks the user's highscore.
 
 ## Pictures
 To be added

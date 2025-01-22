@@ -118,7 +118,7 @@ const QuizPage = () => {
         pokemonImage={currentPokemon?.imageUrl}
       />
       <QuestionCard
-        question={"Who's that Pokemon?"}
+        question={"Who's that Pokémon?"}
         choices={choices}
         onAnswer={checkAnswer}
         isDisabled={!isSilhouette || gameEnded}

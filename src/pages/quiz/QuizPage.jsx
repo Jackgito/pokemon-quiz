@@ -6,12 +6,12 @@ import generateQuestionChoices from './utils/generateQuestionChoices';
 import GameOver from './GameOver/GameOver';
 import { useSettings } from '../../context/SettingsProvider';
 import ScoreDisplay from './ScoreDisplay/ScoreDisplay';
-import ResponsiveAppBar from '../../components/ResponsiveAppBar';
+import ResponsiveAppBar from '../../components/ResponsiveAppBar/ResponsiveAppBar.jsx';
 
 import './QuizPage.css';
 
 import HomeTheme from "../../themes/HomeTheme.jsx";
-import {ThemeProvider} from "@mui/material";
+import { ThemeProvider } from "@mui/material";
 
 const QuizPage = () => {
   const [remainingPokemon, setRemainingPokemon] = useState([]);
@@ -22,11 +22,17 @@ const QuizPage = () => {
   const [choices, setChoices] = useState([]);
   const [gameEnded, setGameEnded] = useState(false);
 
-  const { pokemonData, loading, error } = useFetchPokemonData();
+  const { pokemonData, loading, error, fetchPokemonData } = useFetchPokemonData();
 
   const { difficulty } = useSettings();
 
   const theme = HomeTheme();
+
+  useEffect(() => {
+    if (!pokemonData || pokemonData.length === 0) {
+      fetchPokemonData();
+    }
+  }, [pokemonData, fetchPokemonData]);
 
   // Initialize the game with a random Pokémon
   useEffect(() => {
@@ -52,7 +58,6 @@ const QuizPage = () => {
   // If answer is correct, increment score and move to next question. Otherwise end the game.
   const checkAnswer = (choice) => {
     setIsSilhouette(false);
-  
     if (choice?.correctAnswer) {
       setScore((prevScore) => prevScore + 1);
 
@@ -81,10 +86,11 @@ const QuizPage = () => {
       return;
     }
   };
-  
+
   const restartGame = () => {
-    setRemainingPokemon([...pokemonData]);
     const randomIndex = Math.floor(Math.random() * pokemonData.length);
+    fetchPokemonData();
+    setRemainingPokemon([...pokemonData]);
     setCurrentPokemon(pokemonData[randomIndex]);
     setScore(0);
     setGameEnded(false);
@@ -92,47 +98,48 @@ const QuizPage = () => {
     restartTimer();
   };
 
-  if (loading) return <div>Loading Pokémon...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!choices) return null;
+
 
   let timerDuration = 15;
   if (difficulty === 'Normal' || difficulty === 'Hard') { timerDuration = 10; }
 
   return (
     <ThemeProvider theme={theme}>
-    <div
-      className="page-container"
-    >
+      <div className="page-container">
+        <ResponsiveAppBar />
 
-      <ResponsiveAppBar/>
+        {loading && <div>Loading Pokémon...</div>}
+        {error && <div>Error: {error}</div>}
+        {!choices && <div>No choices available</div>}
 
-      <PokemonCountdown
-        duration={timerDuration}
-        strokeWidth={10}
-        onComplete={checkAnswer}
-        pause={!isSilhouette}
-        key={key}
-        isSilhouette={isSilhouette}
-        pokemonImage={currentPokemon?.imageUrl}
-        currentPokemon={currentPokemon}
-      />
-      <QuestionCard
-        question={"Who's that Pokémon?"}
-        choices={choices}
-        onAnswer={checkAnswer}
-        isDisabled={!isSilhouette || gameEnded}
-      />
-
-      <ScoreDisplay score={score}/>
-
-      {gameEnded && (
-        <GameOver
-          score={score}
-          restartGame={restartGame}
-        />
-      )}
-    </div>
+        {!loading && !error && choices && (
+          <>
+            <PokemonCountdown
+              duration={timerDuration}
+              strokeWidth={10}
+              onComplete={checkAnswer}
+              pause={!isSilhouette}
+              key={key}
+              isSilhouette={isSilhouette}
+              pokemonData={currentPokemon}
+              currentPokemon={currentPokemon}
+            />
+            <QuestionCard
+              question={"Who's that Pokémon?"}
+              choices={choices}
+              onAnswer={checkAnswer}
+              isDisabled={!isSilhouette || gameEnded}
+            />
+            <ScoreDisplay score={score} />
+            {gameEnded && (
+              <GameOver
+                score={score}
+                restartGame={restartGame}
+              />
+            )}
+          </>
+        )}
+      </div>
     </ThemeProvider>
   );
 };

@@ -1,6 +1,7 @@
 .question-timer-container {
   position: relative;
   display: inline-block;
+  margin-top: 100px;
 }
 
 .question-timer-svg {
@@ -18,6 +19,7 @@
 .question-timer-text {
   font-size: 2rem;
   font-weight: bold;
+  color: white;
 }
 
 .pokemon-container {
@@ -32,8 +34,9 @@
 }
 
 .pokemon-image {
-  width: 80%;
-  height: 80%;
+  width: 110%;
+  height: 110%;
+  image-rendering: pixelated;
   object-fit: contain;
   position: absolute;
   top: 60%;
@@ -49,7 +52,6 @@
   transition: filter 0.3s ease-in-out;
 }
 
-
 .pokemon-container {
   padding: 20px;
   border-radius: 50%;
@@ -57,3 +59,12 @@
   height: 300px;
   margin: 32px auto;
 }
+
+@media (max-width: 768px) {
+  .pokemon-container {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -120px); /* Move the container up */
+  }
+}
+

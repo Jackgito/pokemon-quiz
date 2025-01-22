@@ -53,7 +53,7 @@ const GenerationsSwitch = () => {
   return (
       <Stack direction={"column"} spacing={2} padding={2}>
           <Typography variant={"Body"} color={"textSecondary"}>
-              Choose Generations
+              Generations
           </Typography>
 
           <FormControl sx={{ m: 1, width: WIDTH }}>

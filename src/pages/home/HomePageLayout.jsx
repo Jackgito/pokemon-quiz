@@ -2,6 +2,7 @@ import {Box, Grid2, useTheme, Button} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useNavigate } from 'react-router-dom';
 import ResponsiveAppBar from "../../components/ResponsiveAppBar/ResponsiveAppBar.jsx";
+import {useLogin} from "../../context/LoginProvider.jsx";
 
 const HomePageLayout = () => {
     //Import the theme that was provided in the HomePage.jsx component
@@ -14,15 +15,15 @@ const HomePageLayout = () => {
     };
 
     return (
-      <Box 
+      <Box
       style={{
-        height: "100vh", 
-        width: "100vw", 
+        height: "100vh",
+        width: "100vw",
         background: `linear-gradient(${theme.palette.primary.main}, ${theme.palette.secondary.main}), url(/wallpaper.jpg)`,
         backgroundSize: 'cover',
         backgroundPosition: 'center'
-      }} 
-      sx={{padding: "16px"}} 
+      }}
+      sx={{padding: "16px"}}
       elevation={4}
     >
             <Grid2 container spacing={2}>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import PokemonCountdown from './PokemonCountdown/PokemonCountdown';
-import QuestionCard from './QuestionCard/QuestionCard';
+import QuestionCard from './QuestionCard/QuestionCard.jsx';
 import useFetchPokemonData from '../../hooks/useFetchPokemonData';
 import generateQuestionChoices from './utils/generateQuestionChoices';
 import GameOver from './GameOver/GameOver';

@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
 
 import { createContext, useContext, useState } from 'react';
-import error from "eslint-plugin-react/lib/util/error.js";
-import {Alert} from "@mui/material";
 
 const LoginContext = createContext();
 
@@ -16,21 +14,19 @@ const exampleProfile = {
 
 const LoginProvider = ({ children }) => {
 
-    const [user, setUser] = useState(null);
-    const [testUser, setTestUser] = useState(null)
+    const [user, setUser] = useState();
 
     const logIn = (userObject) => {
 
         if (user) {
             return {message: "user already logged in.", success: false};
+        } else if (!userObject.email) {
+            return {message: "no email.", success: false};
+        } else if (!userObject.password) {
+            return {message: "no password", success: false};
         }
-        //TODO: Generate logic to send a request to backend
-        if (testUser.email === userObject.email && testUser.password === userObject.password) {
-          setUser(testUser);
-          return {message: "user logged in", success: true};
-        };
-
-        return {message: "Wrong password or email", success: false};
+        const response = sendLogin(userObject.email, userObject.password);
+        return response
     }
 
     const logOut = () => {
@@ -45,25 +41,39 @@ const LoginProvider = ({ children }) => {
 
     const signUp = async (userObject) => {
         //TODO: Create request to server
-        console.log("Succces!\n," +
-          "The user reached the destination:\n"+
-          userObject.first_name+"\n",
-          userObject.last_name+"\n",
-          userObject.email+"\n",
-          userObject.password+"\n")
-
-        setTestUser({
-            first_name: userObject.first_name,
-            last_name: userObject.last_name,
-            password:userObject.password,
-            email: userObject.email,
-            pic: userObject.pic
-        });
 
         const response = await sendRegistration(userObject);
         console.log("RESPONSE: "+ response)
 
         return response;
+    }
+
+    const sendLogin = async (email, password) => {
+        let options = {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+            },
+            body: JSON.stringify({email:email, password:password}),
+        };
+        try {
+            const response = await fetch("http://127.0.0.1:8000/login", options);
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Login request successful, welcome:  " + data.first_name);
+                return {message:"login succesfull",userdata:data, success: true};
+            } else {
+                console.error("Login request failed with status:", response.status);
+                return {message:"login failed probably due to invalid credentials", success: false};
+            }
+        } catch (error) {
+            console.error("Fetch error in login:", error);
+            return {message:"Error in login protocol", success: false};
+        }
+
+
+
     }
 
     const sendRegistration = async (userObject) => {
@@ -73,14 +83,14 @@ const LoginProvider = ({ children }) => {
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
             },
-            body: JSON.stringify(userObject),
+        body: JSON.stringify(userObject),
         };
 
         try {
             const response = await fetch("http://127.0.0.1:8000/register", options);
             if (response.ok) {
                 console.log("Registration request successful");
-                return "Success"; // Return a meaningful response
+                return "Success";
             } else {
                 console.error("Registration request failed with status:", response.status);
                 return "Failed"; // Return a failure message

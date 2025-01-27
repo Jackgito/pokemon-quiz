@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {Divider, Button, Stack, ToggleButton, ToggleButtonGroup} from '@mui/material';
+import {Divider, Stack, ToggleButton, ToggleButtonGroup} from '@mui/material';
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 

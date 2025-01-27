@@ -18,7 +18,6 @@ const LoginProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
     const [testUser, setTestUser] = useState(null)
-    const [alert, setAlert] = useState("")
 
     const logIn = (userObject) => {
 
@@ -81,11 +80,9 @@ const LoginProvider = ({ children }) => {
             const response = await fetch("http://127.0.0.1:8000/register", options);
             if (response.ok) {
                 console.log("Registration request successful");
-                setAlert("success")
                 return "Success"; // Return a meaningful response
             } else {
                 console.error("Registration request failed with status:", response.status);
-                setAlert("error")
                 return "Failed"; // Return a failure message
             }
         } catch (error) {
@@ -102,26 +99,9 @@ const LoginProvider = ({ children }) => {
         return user;
     }
 
-    const generateAlert = (alert) => {
-        let message = "";
-
-        if (alert === "success") {
-            message = "User created succesfully";
-        } else if (alert === "error") {
-            message = "Something went wrong with registering";
-        } else {
-            console.log("Error with setAlert");
-            return null
-        }
-
-        if (alert !== "") {
-            return <Alert severity={alert}>{message}</Alert>
-        }
-    }
-
 
     return (
-        <LoginContext.Provider value={{ logIn, logOut, signUp, getUser, generateAlert, alert }}>
+        <LoginContext.Provider value={{ logIn, logOut, signUp, getUser }}>
             {children}
         </LoginContext.Provider>
     );

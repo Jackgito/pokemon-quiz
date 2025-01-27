@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {TextField, Button, Typography, Stack} from '@mui/material';
+import {TextField, Button, Typography, Stack, Avatar} from '@mui/material';
 import UploadButton from "./Uploadbutton";
 import {HowToReg} from "@mui/icons-material";
 import {useLogin} from "../../../context/LoginProvider.jsx";
@@ -79,7 +79,13 @@ const Register = ({onRegister}) => {
         </Typography>
             <form onSubmit={handleSubmit} onChange={handleChange}>
                 <Stack direction={"column"} spacing={2}>
-                    {previewSrc && <img src={previewSrc} alt="Profile Preview" height={"150vh"}/>}
+                    <Stack direction={"row"} justifyContent={"center"}>
+                        {previewSrc && <Avatar
+                          variant={"round"}
+                          src={previewSrc}
+                          sx={{width: 100, height: 100}}
+                          alt="Profile Preview"/>}
+                    </Stack>
                     <TextField
                       data-testid = "firstname-field"
                       label="First Name"

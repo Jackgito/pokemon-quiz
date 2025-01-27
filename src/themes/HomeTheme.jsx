@@ -4,12 +4,12 @@ const HomeTheme = () => {
     let theme = createTheme({
         palette: {
             primary: {
-                //main: '#EE1515',
-                main:'rgb(0,0,0)',
+                main: '#EE1515',
+                //main:'rgb(0,0,0)',
             },
             secondary: {
-                //main: '#F0F0F0',
-                main:'rgb(35,35,35)',
+                main: '#F0F0F0',
+                //main:'rgb(35,35,35)',
             },
 
         },

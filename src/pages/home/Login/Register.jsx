@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {TextField, Button, Typography, Stack, Avatar} from '@mui/material';
-import UploadButton from "./Uploadbutton";
+import UploadButton from "./UploadButton.jsx";
 import {HowToReg} from "@mui/icons-material";
 import {useLogin} from "../../../context/LoginProvider.jsx";
 

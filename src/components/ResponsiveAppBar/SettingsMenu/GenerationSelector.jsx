@@ -12,6 +12,7 @@ import {
 
 import Typography from "@mui/material/Typography";
 import { useSettings } from "../../../context/SettingsProvider";
+import InfoButton from "./InfoButton";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -54,6 +55,7 @@ const GenerationsSwitch = () => {
       <Stack direction={"column"} spacing={2} padding={2}>
           <Typography variant={"Body"} color={"textSecondary"}>
               Generations
+              <InfoButton text={"Choose what Pokemon generations are included in the quiz."} />
           </Typography>
 
           <FormControl sx={{ m: 1, width: WIDTH }}>

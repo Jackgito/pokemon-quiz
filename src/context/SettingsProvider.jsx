@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-
 // How to access and modify settings example:
 // import { useSettings } from '../../context/SettingsProvider';
 // const { difficulty, changeDifficulty } = useSettings();
@@ -11,7 +9,7 @@ const SettingsContext = createContext();
 
 const SettingsProvider = ({ children }) => {
   const [difficulty, setDifficulty] = useState('Normal'); // Easy , Normal, Hard
-  const [quizType, setQuizType] = useState('Image'); // Image, Cry
+  const [quizType, setQuizType] = useState('Retro'); // Retro, Modern, Sound
   const [generations, setGenerations] = useState([
     { name: "Gen. I", value: 1, selected: true },
     { name: "Gen. II", value: 2, selected: false },

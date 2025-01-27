@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import useScreenSize from '../../../hooks/useScreenSize';
 import './ScoreDisplay.css';

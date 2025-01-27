@@ -133,7 +133,7 @@ const QuizPage = () => {
               onAnswer={checkAnswer}
               isDisabled={!isSilhouette || gameEnded}
             />
-            <ScoreDisplay score={score} />
+            <ScoreDisplay score={parseInt(score, 10)} />
             <GameOver
               score={score}
               restartGame={restartGame}

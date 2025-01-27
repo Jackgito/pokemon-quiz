@@ -10,7 +10,7 @@ import { createContext, useContext, useState } from 'react';
 const SettingsContext = createContext();
 
 const SettingsProvider = ({ children }) => {
-  const [difficulty, setDifficulty] = useState('Hard'); // Easy , Normal, Hard
+  const [difficulty, setDifficulty] = useState('Easy'); // Easy , Normal, Hard
 
   const changeDifficulty = (newDifficulty) => {
     setDifficulty(newDifficulty);

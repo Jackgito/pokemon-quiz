@@ -14,12 +14,21 @@ import QuestionIcon from "../../themes/custom_icons/QuestionIcon.jsx";
 import {Close} from "@mui/icons-material";
 import DifficultySwitch from "./Selection/DifficultySwitch.jsx";
 import UserIcon from "./User/UserIcon.jsx";
+import {useLogin} from "../../context/LoginProvider.jsx";
+import LoginAndRegisterIcon from "./Login/LoginAndRegisterIcon.jsx";
+
+// How to access and modify settings example:
+// import { useSettings } from '../../context/SettingsProvider';
+// const { difficulty, changeDifficulty } = useSettings();
+// changeDifficulty('Normal');
 
 
 function ResponsiveAppBar() {
 
 
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const { getUser } = useLogin();
+
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
     };
@@ -69,8 +78,13 @@ function ResponsiveAppBar() {
                     }}>
                         <QuestionIcon sx={{fontSize: 80}}/>
                     </Box>
-                    <UserIcon></UserIcon>
-
+                    {getUser() ?
+                        <UserIcon/>
+                        :
+                        <LoginAndRegisterIcon/>
+                    } {/*The get users returns the users information from the LoginProvider.
+                        If the user hasn't logged in null is returned
+                        */}
                 </Toolbar>
             </AppBar>
             <nav>
@@ -78,7 +92,6 @@ function ResponsiveAppBar() {
                     variant="temporary"
                     open={mobileOpen}
                     onClose={handleDrawerToggle}
-                    style={{borderRadius:"25px"}}
                     ModalProps={{
                         keepMounted: true, // Better open performance on mobile.
                     }}
@@ -88,10 +101,7 @@ function ResponsiveAppBar() {
                             width: "inherit",
                             borderTopRightRadius: '20px',
                             borderBottomRightRadius: '20px',
-                            opacity:"100%"
-
                         },
-
                     }}
                 >
                     {drawer}

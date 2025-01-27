@@ -1,39 +1,30 @@
-import {
-    Avatar,
-    Box,
-    IconButton,
-    Menu,
-    Tooltip,
-} from "@mui/material";
-import {useEffect, useState} from "react";
-import UserIconMenu from "./UserIconMenu.jsx";
-import {useLogin} from "../../../context/LoginProvider.jsx";
+import {useState} from "react";
+import { Box, IconButton, Menu, Tooltip} from "@mui/material";
+import {Face} from "@mui/icons-material";
+import LogInMenu from "./LogInMenu.jsx";
 
+const LoginAndRegisterIcon = () => {
 
-const UserIcon = () => {
-    const {getUser} = useLogin();
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const [profile, setProfile] = useState(getUser())
 
-
-    const handleOpenUserMenu = (event) => {
+    const handleOpenSignUpMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
 
-
-    const handleCloseUserMenu = () => {
+    
+    const handleCloseSignUpMenu = () => {
         setAnchorElUser(null);
     };
 
     return (
         <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open profile">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Remy Sharp" src={profile.pic}/>
+            <Tooltip title="Sign Up or Log in">
+                <IconButton onClick={handleOpenSignUpMenu} sx={{ p: 0 }}>
+                    <Face sx={{color: 'white'}}/>
                 </IconButton>
             </Tooltip>
             <Menu
-                sx={{ mt: '45px', maxWidth: '40vw'}}
+                sx={{ mt: '45px', maxWidth: '100vw'}}
 
                 slotProps ={{
                     paper: {
@@ -54,12 +45,12 @@ const UserIcon = () => {
                     horizontal: 'right',
                 }}
                 open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
+                onClose={handleCloseSignUpMenu}
             >
-                <UserIconMenu profile={profile}/>
+                <LogInMenu/>
             </Menu>
         </Box>
     );
 };
 
-export default UserIcon;
+export default LoginAndRegisterIcon;

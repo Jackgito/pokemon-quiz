@@ -7,6 +7,7 @@ import GameOver from './GameOver/GameOver';
 import { useSettings } from '../../context/SettingsProvider';
 import ScoreDisplay from './ScoreDisplay/ScoreDisplay';
 import ResponsiveAppBar from '../../components/ResponsiveAppBar/ResponsiveAppBar.jsx';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import './QuizPage.css';
 
@@ -98,8 +99,6 @@ const QuizPage = () => {
     restartTimer();
   };
 
-
-
   let timerDuration = 15;
   if (difficulty === 'Normal' || difficulty === 'Hard') { timerDuration = 10; }
 
@@ -108,7 +107,11 @@ const QuizPage = () => {
       <div className="page-container">
         <ResponsiveAppBar />
 
-        {loading && <div>Loading Pokémon...</div>}
+        {loading && 
+          <div>
+            <CircularProgress size={200} />
+          </div>
+        }
         {error && <div>Error: {error}</div>}
         {!choices && <div>No choices available</div>}
 
@@ -131,12 +134,12 @@ const QuizPage = () => {
               isDisabled={!isSilhouette || gameEnded}
             />
             <ScoreDisplay score={score} />
-            {gameEnded && (
-              <GameOver
-                score={score}
-                restartGame={restartGame}
-              />
-            )}
+            <GameOver
+              score={score}
+              restartGame={restartGame}
+              gameEnded={gameEnded}
+              correctPokemonName={currentPokemon?.name}
+            />
           </>
         )}
       </div>

@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-
 import { useState, useEffect, useRef } from 'react';
 import './PokemonCountdown.css';
 import { useSettings } from '../../../context/SettingsProvider';
@@ -93,16 +91,15 @@ const PokemonCountdown = ({ duration, strokeWidth, onComplete, pause, pokemonDat
         />
       </svg>
       <div className="pokemon-container" style={{ width: size - 58, height: size - 58 }}>
-        {quizType === 'Image' ? (
-          <img
-            src={pokemonData?.imageUrl}
-            // src={pokemonData?.animationUrl}
-            alt="Pokemon"
-            className={`pokemon-image ${isSilhouette ? 'silhouette' : 'no-silhouette'}`}
-          />
-        ) : (
-          <PlaySoundButton cryUrl={pokemonData?.cryUrl} />
-        )}
+      {quizType === 'Sound' ? (
+        <PlaySoundButton cryUrl={pokemonData?.cryUrl} />
+      ) : (
+        <img
+          src={quizType === 'Retro' ? pokemonData?.imageUrl : pokemonData?.animationUrl}
+          alt="Pokemon"
+          className={`pokemon-image ${isSilhouette ? 'silhouette' : 'no-silhouette'}`}
+        />
+      )}
       </div>
       <div className="question-timer-number">
         <span className="question-timer-text">{Math.ceil(timeLeft)}</span>

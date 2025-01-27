@@ -32,7 +32,7 @@ function ResponsiveAppBar() {
           alignItems: "center",
         }}>
         <Typography variant="h6" sx={{ m: 2 }}>
-          Menu
+          Options
         </Typography>
         <IconButton onClick={handleDrawerToggle}>
           <Close />

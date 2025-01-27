@@ -3,7 +3,7 @@ import { useSettings } from '../context/SettingsProvider';
 
 const useFetchPokemonData = () => {
   const [pokemonData, setPokemonData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { getSelectedGenerations } = useSettings();
   const prevSelectedGenerations = useRef([]);
@@ -40,6 +40,7 @@ const useFetchPokemonData = () => {
         } else {
           // Fetch data for uncached generations
           const [start, end] = pokemonRanges[gen];
+          // FIX
           const responses = await Promise.all(
             Array.from({ length: end - start + 1 }, (_, index) =>
               fetch(`https://pokeapi.co/api/v2/pokemon/${start + index}/`).then((res) => {
@@ -57,8 +58,6 @@ const useFetchPokemonData = () => {
             animationUrl: pokemon.sprites.other.showdown.front_default,
             types: pokemon.types.map((typeInfo) => capitalize(typeInfo.type.name)),
           }));
-
-          console.log(data[0])
 
           cachedData.current[gen] = data; // Cache the data for this generation
           allPokemon = [...allPokemon, ...data];

@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import {useState} from "react";
 import UserIconMenu from "./UserIconMenu.jsx";
+import {useLogin} from "../../../context/LoginProvider.jsx";
 
 const exampleProfile = {
     first_name: "Arttu",
@@ -16,9 +17,10 @@ const exampleProfile = {
 }
 
 const UserIcon = () => {
+    const {getUser} = useLogin();
+		const [anchorElUser, setAnchorElUser] = useState(null);
+    const [profile, setProfile] = useState(getUser())
 
-    const [anchorElUser, setAnchorElUser] = useState(null);
-    const [profile, setProfile] = useState(exampleProfile)
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);

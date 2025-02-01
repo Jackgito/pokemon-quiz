@@ -13,8 +13,8 @@ import GenerationsSwitch from "./SettingsMenu/GenerationSelector.jsx";
 import QuestionIcon from "../../themes/custom_icons/QuestionIcon.jsx";
 import { Close } from "@mui/icons-material";
 import DifficultySwitch from "./SettingsMenu/DifficultySwitch.jsx";
-import UserIcon from "./User/UserIcon.jsx";
 import QuizTypeSwitch from "./SettingsMenu/QuizTypeSwitch.jsx";
+import LoginAndRegisterIcon from "../../pages/home/Login/LoginAndRegisterIcon.jsx";
 
 function ResponsiveAppBar() {
 
@@ -69,7 +69,7 @@ function ResponsiveAppBar() {
           }}>
             <QuestionIcon sx={{ fontSize: 80 }} />
           </Box>
-          <UserIcon></UserIcon>
+          <LoginAndRegisterIcon/>
 
         </Toolbar>
       </AppBar>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import PokemonCountdown from './PokemonCountdown/PokemonCountdown';
-import QuestionCard from './QuestionCard/QuestionCard';
+import QuestionCard from './QuestionCard/QuestionCard.jsx';
 import useFetchPokemonData from '../../hooks/useFetchPokemonData';
 import generateQuestionChoices from './utils/generateQuestionChoices';
 import GameOver from './GameOver/GameOver';
@@ -133,7 +133,7 @@ const QuizPage = () => {
               onAnswer={checkAnswer}
               isDisabled={!isSilhouette || gameEnded}
             />
-            <ScoreDisplay score={score} />
+            <ScoreDisplay score={parseInt(score, 10)} />
             <GameOver
               score={score}
               restartGame={restartGame}

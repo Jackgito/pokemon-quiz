@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-
 import React, { useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -10,10 +8,12 @@ const PlaySoundButton = ({ cryUrl }) => {
   const audioRef = React.useRef(null);
 
   useEffect(() => {
-    audioRef.current.play();
-    setIsPlaying(true);
-  }
-  , [cryUrl]);
+    if (audioRef.current) {
+      audioRef.current.volume = 0.05; // Decrease volume
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  }, [cryUrl]);
 
   const handlePlayPause = () => {
     if (!audioRef.current) return;

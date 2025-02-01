@@ -4,11 +4,13 @@
 Simple yet fun project designed and built within two weeks for the React hackathon. It uses the PokeApi to generate Pokémon themed questions and tracks the user's highscore.
 
 ## Pictures
-To be added
+![image](https://github.com/user-attachments/assets/71d6dae5-97fc-48d8-8fd8-b62a47b44ccc)
+
+![image](https://github.com/user-attachments/assets/d3f1cae7-3401-4534-82eb-9e802a9259d2)
+
 
 ## Technologies
 - **React**: Modern library for creating modern, responsive and stylish websites with ease [https://react.dev/](https://react.dev/)
-
 
 - **Vite**: Fast modern frontend build tool for web development [https://vite.dev/](https://vite.dev/)
 
@@ -20,8 +22,10 @@ To be added
 
 ## Roadmap
 
-- Home page
-- Quiz page that displays one type of question: Guess which Pokemon is shown in the silhoutte
+- Finish user creation / login logic
+- Add leaderboards section
+- Better game over screen
+- Score multipliers depending on the settings
 
 ---
 
@@ -29,21 +33,19 @@ To be added
 
 1. **Clone the Repository**:
    ```bash
-   git clone <repository-url>
-   cd <repository-name>
+   git clone https://github.com/Jackgito/pokemon-quiz.git
    ```
 
 2. **Install Dependencies**:
    - For frontend:
      ```bash
-     cd frontend
+     cd pokemon-quiz
      npm i
      ```
 
 3. **Run the Application**:
    - Frontend:
      ```bash
-     cd frontend
      npm run dev
      ```
 ---
@@ -60,8 +62,7 @@ To be added
 ## Coding practices
 - Folder's first letter should be capitalized if it is used for component. Otherwise it should be small.
 
-- When applying colors via CSS, use the color palette found in the variables.css like this: background-color: var(--primary-color);
-Feel free to add new colors or modify existing ones.
+- variables.css is outdated, please use MUI themes when applying colors
 
 ## License
 This project is licensed under the [MIT License](LICENSE).

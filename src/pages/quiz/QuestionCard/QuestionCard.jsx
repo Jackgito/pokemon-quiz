@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-
 import MultipleChoiceAnswers from './MultipleChoiceAnswers';
 import WrittenAnswer from './WrittenAnswer';
 

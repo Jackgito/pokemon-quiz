@@ -1,42 +1,42 @@
-import {Box, Grid2, useTheme, Button} from "@mui/material";
-import Grid from "@mui/material/Grid2";
-import { useNavigate } from 'react-router-dom';
+import { Box, Grid2, useTheme, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import ResponsiveAppBar from "../../components/ResponsiveAppBar/ResponsiveAppBar.jsx";
 
 const HomePageLayout = () => {
-    //Import the theme that was provided in the HomePage.jsx component
-    const theme = useTheme();
+  const theme = useTheme();
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const handleStart = () => {
+    navigate("/quiz");
+  };
 
-    const handleStart = () => {
-      navigate('/quiz');
-    };
-
-    return (
-      <Box 
-      style={{
-        height: "100vh", 
-        width: "100vw", 
+  return (
+    <Box
+      sx={{
+        height: "100vh",
+        width: "100vw",
         background: `linear-gradient(${theme.palette.primary.main}, ${theme.palette.secondary.main}), url(/wallpaper.jpg)`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }} 
-      sx={{padding: "16px"}} 
-      elevation={4}
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        padding: "16px",
+      }}
     >
-            <Grid2 container spacing={2}>
-                <Grid size={{xs:12, md:6}}>
-                    <ResponsiveAppBar/>
-                    {/* <br></br>
-                    <br></br>
-                    <Button variant="contained" color="primary" onClick={handleStart}>
-                      Start Quiz
-                    </Button> */}
-                </Grid>
-            </Grid2>
-        </Box>
-    );
+      <ResponsiveAppBar />
+      <Grid2
+        container
+        spacing={2}
+        alignItems="center"
+        justifyContent="center"
+        style={{ height: "calc(100vh - 64px)" }} // Subtract AppBar height if necessary
+      >
+        <Grid2 item>
+          <Button variant="contained" color="primary" onClick={handleStart}>
+            Start Quiz
+          </Button>
+        </Grid2>
+      </Grid2>
+    </Box>
+  );
 };
 
 export default HomePageLayout;

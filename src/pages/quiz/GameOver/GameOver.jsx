@@ -23,7 +23,7 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName }) => {
 
       setEffectTriggered(true);
     }
-  }, [gameEnded]);
+  }, [gameEnded, score, effectTriggered]);
 
   const handleClose = () => setAlertType(null);
 

@@ -5,12 +5,13 @@ import PlaySoundButton from './PlaySoundButton';
 import useScreenSize from '../../../hooks/useScreenSize';
 
 const PokemonCountdown = ({ duration, strokeWidth, onComplete, pause, pokemonData, isSilhouette }) => {
-  const [timeLeft, setTimeLeft] = useState(duration);
-  const [size, setSize] = useState(350);
-  const requestRef = useRef();
-  const startTimeRef = useRef();
   const { isMobile } = useScreenSize();
   const { quizType } = useSettings();
+
+  const [timeLeft, setTimeLeft] = useState(duration);
+  const [size, setSize] = useState(isMobile ? 240 : 350);
+  const requestRef = useRef();
+  const startTimeRef = useRef();
 
   useEffect(() => {
     if (isMobile) {

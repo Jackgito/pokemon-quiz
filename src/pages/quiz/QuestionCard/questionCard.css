@@ -24,15 +24,16 @@
   gap: 10px;
 }
 
-.answer-card:not(.disabled):not(.selected):hover {
-  border-color: var(--accent-color);
+@media (min-width: 768px) {
+  .answer-card:not(.disabled):not(.selected):hover {
+    border-color: var(--accent-color);
+  }
 }
 
 .answer-card.disabled {
   filter: brightness(85%);
 }
 
-/* Increase specificity to overwrite the darkening effect */
 .answer-card.disabled.selected {
   filter: brightness(115%);
 }

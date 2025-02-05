@@ -1,16 +1,30 @@
 # Pokemon Quiz
 
 ## Overview
-Simple yet fun project designed and built within two weeks for the React hackathon. It uses the PokeApi to generate Pokémon themed questions and tracks the user's highscore.
+
+Who's That Pokémon is an interactive quiz game that challenges players to identify Pokémon based on their silhouettes, animations, or cries. Inspired by the iconic segment from the Pokémon animated series, this app offers a fun and engaging way for fans to test their Pokémon knowledge across different game modes.
+
+## Features
+- Classic Mode: Guess the Pokémon based on its silhouette.
+- Animated Mode: Identify Pokémon from their in-game animations.
+- Sound Mode: Recognize Pokémon by their cries.
+- Retro Mode: A nostalgic twist with classic Pokémon sprites.
+- Multiple Difficulty Levels: Adjust the challenge based on your Pokémon expertise.
 
 ## Pictures
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f636065f-3e8b-40fd-9bf0-9df487ac79bd" width="45%" />
+  <img src="https://github.com/user-attachments/assets/3c9a0c71-b090-4c7d-9521-9c542aea8f2f" width="45%" />
+</p>
 
+### Old pictures
 
-Old app:
-![image](https://github.com/user-attachments/assets/71d6dae5-97fc-48d8-8fd8-b62a47b44ccc)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/71d6dae5-97fc-48d8-8fd8-b62a47b44ccc" width="45%" />
+  <img src="https://github.com/user-attachments/assets/d3f1cae7-3401-4534-82eb-9e802a9259d2" width="45%" />
+</p>
 
-![image](https://github.com/user-attachments/assets/d3f1cae7-3401-4534-82eb-9e802a9259d2)
 
 
 ## Technologies

@@ -1,7 +1,5 @@
 import { createContext, useContext, useState, useCallback } from "react";
 import { Snackbar, Alert, AlertTitle } from "@mui/material";
-import { ThemeProvider } from '@mui/material/styles';
-import HomeTheme from '../themes/HomeTheme';
 
 const ToastContext = createContext();
 
@@ -25,7 +23,6 @@ export const ToastProvider = ({ children }) => {
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      <ThemeProvider theme={HomeTheme()}>
         <Snackbar
           open={toast.open}
           autoHideDuration={7000}
@@ -42,7 +39,6 @@ export const ToastProvider = ({ children }) => {
             {toast.message}
           </Alert>
         </Snackbar>
-      </ThemeProvider>
     </ToastContext.Provider>
   );
 };

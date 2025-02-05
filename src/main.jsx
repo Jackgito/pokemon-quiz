@@ -8,21 +8,25 @@ import { ToastProvider } from "./context/ToastProvider";
 import './main.css'
 
 import HomePage from './pages/home/HomePage.jsx'
-import QuizPage from './pages/quiz/QuizPage.jsx'
+import LeaderboardPage from './pages/leaderboard/LeaderboardPage.jsx'
+import { ThemeProvider } from '@emotion/react';
+import HomeTheme from './themes/HomeTheme.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ToastProvider>
-      <SettingsProvider>
-          <LoginProvider>
-              <Router>
-                  <Routes>
-                      <Route path="/" element={<HomePage />} />
-                      <Route path="/quiz" element={<QuizPage />} />
-                  </Routes>
-              </Router>
-          </LoginProvider>
-      </SettingsProvider>
-    </ToastProvider>
+    <ThemeProvider theme={HomeTheme()}>
+      <ToastProvider>
+        <SettingsProvider>
+            <LoginProvider>
+                <Router>
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/leaderboard" element={<LeaderboardPage />} />
+                    </Routes>
+                </Router>
+            </LoginProvider>
+        </SettingsProvider>
+      </ToastProvider>
+    </ThemeProvider>
   </StrictMode>,
 )

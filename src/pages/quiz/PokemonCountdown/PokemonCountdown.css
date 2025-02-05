@@ -9,17 +9,16 @@
   z-index: 2;
 }
 
-.question-timer-number {
+.question-timer-text {
+
   position: absolute;
   top: 18%;
   left: 50%;
   transform: translate(-50%, -50%); /* Center the number */
-}
-
-.question-timer-text {
   font-size: 2rem;
   font-weight: bold;
   color: white;
+  color: rgb(35,35,35);
 }
 
 .pokemon-container {
@@ -34,8 +33,8 @@
 }
 
 .pokemon-image {
-  width: 70%;
-  height: 70%;
+  width: 85%;
+  height: 85%;
   transition: filter 0.5s ease;
   object-fit: contain;
 }
@@ -47,4 +46,9 @@
 .no-silhouette {
   filter: none;
   /* image-rendering: pixelated; */
+}
+
+.retro-mode {
+  width: 60% !important;
+  height: 60% !important;
 }

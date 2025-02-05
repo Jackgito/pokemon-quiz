@@ -52,7 +52,7 @@ const useFetchPokemonData = () => {
 
           const data = responses.map((pokemon) => ({
             id: pokemon.id,
-            name: capitalize(pokemon.name),
+            name: capitalize(pokemon.species.name),
             imageUrl: pokemon.sprites?.front_default || null,
             cryUrl: pokemon.cries?.latest || null,
             animationUrl: pokemon.sprites.other.showdown.front_default,

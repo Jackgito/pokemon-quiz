@@ -1,7 +1,5 @@
-@import 'variables.css';
-
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
   line-height: 1.5;
   font-weight: 400;
 
@@ -15,15 +13,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* body {
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-} */
-
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -33,4 +22,13 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background-color: #dbdbdb !important;
+  overflow: hidden; /*Prevent scrolling, which can be used to "hide" elements outside of the screen */
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  src: url('/fonts/Orbitron.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }

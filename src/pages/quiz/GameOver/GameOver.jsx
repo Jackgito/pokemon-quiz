@@ -42,10 +42,10 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName }) => {
         onClose={handleClose}
       >
         <Alert
-        variant='outlined'
+          variant='outlined'
           onClose={handleClose} 
           severity={alertType === "highScore" ? "success" : "error"} 
-          sx={{ width: '100%', display: alertType ? '' : 'none'}}
+          sx={{ width: '100%', display: alertType ? '' : 'none', backgroundColor: 'white' }}
         >
           <AlertTitle>{alertType === "highScore" ? "New high score!" : "Game over!"}</AlertTitle>
           The correct Pokémon was {correctPokemonName}!

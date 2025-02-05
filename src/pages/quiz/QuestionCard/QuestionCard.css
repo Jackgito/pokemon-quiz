@@ -1,20 +1,21 @@
+/* TODO: Colors should be used from the theme */
 .question-card {
   background-color: rgba(0, 0, 0, 0.5);
-  border: 4px solid var(--primary-color);
+  border: 4px solid #222224;
   padding: 20px;
   border-radius: 10px;
-  max-width: 350px;
+  width: 380px;
   margin: 30px auto;
-  color: var(--text-color);
+  color: white;
 }
 
 .answer-card {
-  color: var(--text-color);
+  color: white;
   border: 2px solid #ccc;
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
-  background-color: var(--primary-color);
+  background-color: #222224;
   transition: border-color 0.3s ease;
 }
 
@@ -26,7 +27,7 @@
 
 @media (min-width: 768px) {
   .answer-card:not(.disabled):not(.selected):hover {
-    border-color: var(--accent-color);
+    border-color: red;
   }
 }
 
@@ -39,11 +40,11 @@
 }
 
 .answer-card.correct {
-  background-color: var(--correct-color);
+  background-color: rgb(47, 193, 33);
 }
 
 .answer-card.incorrect {
-  background-color: var(--incorrect-color);
+  background-color: rgb(232, 31, 31);
 }
 
 h2 {
@@ -90,3 +91,19 @@ h2 {
   }
 }
 
+.multiple-choice-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+@media (max-width: 768px) {
+  .multiple-choice-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .answer-card {
+    font-size: 0.8rem;
+  }
+}

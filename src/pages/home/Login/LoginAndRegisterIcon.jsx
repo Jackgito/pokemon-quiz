@@ -10,7 +10,6 @@ const LoginAndRegisterIcon = () => {
     const handleOpenSignUpMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
-
     
     const handleCloseSignUpMenu = () => {
         setAnchorElUser(null);
@@ -18,8 +17,8 @@ const LoginAndRegisterIcon = () => {
 
     return (
         <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Sign Up or Log in">
-                <IconButton onClick={handleOpenSignUpMenu} sx={{ p: 0 }}>
+            <Tooltip title="Sign up or Log in">
+                <IconButton onClick={handleOpenSignUpMenu} sx={{ color: 'white'}}>
                     <Face sx={{color: 'white'}}/>
                 </IconButton>
             </Tooltip>

@@ -1,41 +1,60 @@
-import { Box, Grid2, useTheme, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useTheme } from "@mui/material";
 import ResponsiveAppBar from "../../components/ResponsiveAppBar/ResponsiveAppBar.jsx";
+import './HomePageLayout.css';
+import StartButton from "./StartButton/StartButton.jsx";
+import QuizPage from "../quiz/QuizPage.jsx";
 
 const HomePageLayout = () => {
-  const theme = useTheme();
-  const navigate = useNavigate();
+  const [gameStarted, setGameStarted] = useState(false);
 
-  const handleStart = () => {
-    navigate("/quiz");
+  const theme = useTheme();
+
+  const handleGameStart = () => {
+    setGameStarted(true);
   };
 
   return (
-    <Box
-      sx={{
-        height: "100vh",
-        width: "100vw",
-        background: `linear-gradient(${theme.palette.primary.main}, ${theme.palette.secondary.main}), url(/wallpaper.jpg)`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        padding: "16px",
-      }}
-    >
+    <>
       <ResponsiveAppBar />
-      <Grid2
-        container
-        spacing={2}
-        alignItems="center"
-        justifyContent="center"
-        style={{ height: "calc(100vh - 64px)" }} // Subtract AppBar height if necessary
-      >
-        <Grid2 item>
-          <Button variant="contained" color="primary" onClick={handleStart}>
-            Start Quiz
-          </Button>
-        </Grid2>
-      </Grid2>
-    </Box>
+      {/* Do no not change div class names. They are used in StartButton as well */}
+      <div className="top-div" style={{ '--theme-palette-primary-main': theme.palette.primary.main }}>
+        <h1 className="title">Who&apos;s That Pokémon?</h1>
+        <p>Put your Pokémon knowledge to the ultimate test. Prove that you are the very best like no one ever was!</p>
+      </div>
+
+      <div className="middle-container">
+        <div
+          className="middle-div"
+          style={{
+            backgroundColor: theme.palette.tertiary.main,
+            height: "5vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+        </div>
+
+        {gameStarted ? (<QuizPage />) : (
+          <StartButton onGameStart={handleGameStart}/>
+        )}
+
+        <div
+          className="middle-div"
+          style={{
+            backgroundColor: theme.palette.tertiary.main,
+            height: "5vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+        </div>
+      </div>
+
+      <div className="bottom-div" style={{ '--theme-palette-secondary-main': theme.palette.secondary.main }}></div>
+    </>
   );
 };
 

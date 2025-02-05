@@ -15,7 +15,7 @@ const PokemonCountdown = ({ duration, strokeWidth, onComplete, pause, pokemonDat
 
   useEffect(() => {
     if (isMobile) {
-      setSize(240);
+      setSize(260);
     } else {
       setSize(350);
     }
@@ -62,6 +62,7 @@ const PokemonCountdown = ({ duration, strokeWidth, onComplete, pause, pokemonDat
 
   return (
     <div className="question-timer-container">
+
       <svg
         className="question-timer-svg"
         width={size}
@@ -72,7 +73,7 @@ const PokemonCountdown = ({ duration, strokeWidth, onComplete, pause, pokemonDat
         }}
       >
         <circle
-          stroke="#e6e6e6"
+          stroke="rgb(35, 35, 35)"
           strokeWidth={strokeWidth}
           fill="transparent"
           r={radius}
@@ -91,20 +92,19 @@ const PokemonCountdown = ({ duration, strokeWidth, onComplete, pause, pokemonDat
           cy={size / 2}
         />
       </svg>
+
       <div className="pokemon-container" style={{ width: size - 58, height: size - 58 }}>
       {quizType === 'Sound' ? (
         <PlaySoundButton cryUrl={pokemonData?.cryUrl} />
       ) : (
         <img
           src={quizType === 'Retro' ? pokemonData?.imageUrl : pokemonData?.animationUrl}
-          alt="Pokemon"
-          className={`pokemon-image ${isSilhouette ? 'silhouette' : 'no-silhouette'}`}
+          className={`pokemon-image ${quizType === 'Retro' ? '' : 'retro-mode'} ${isSilhouette ? 'silhouette' : 'no-silhouette'}`}
         />
       )}
       </div>
-      <div className="question-timer-number">
-        <span className="question-timer-text">{Math.ceil(timeLeft)}</span>
-      </div>
+      
+      <span className="question-timer-text">{Math.ceil(timeLeft)}</span>
     </div>
   );
 };

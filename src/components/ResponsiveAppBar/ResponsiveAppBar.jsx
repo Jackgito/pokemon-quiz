@@ -6,9 +6,11 @@ import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Settings';
+import HomeIcon from '@mui/icons-material/Home';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Stack } from "@mui/material";
+import { Stack, Tooltip } from "@mui/material";
 import GenerationsSwitch from "./SettingsMenu/GenerationSelector.jsx";
 import QuestionIcon from "../../themes/custom_icons/QuestionIcon.jsx";
 import { Close } from "@mui/icons-material";
@@ -53,6 +55,8 @@ function ResponsiveAppBar() {
       <CssBaseline />
       <AppBar component="nav">
         <Toolbar>
+
+          {/* Settings */}
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -61,14 +65,38 @@ function ResponsiveAppBar() {
           >
             <MenuIcon />
           </IconButton>
+
+          {/* Home */}
+          <IconButton
+            color="inherit"
+            edge="start"
+            href="/"
+            sx={{ marginLeft: "8px" }}
+          >
+            <HomeIcon />
+          </IconButton>
+
           <Box sx={{
             flexGrow: 1,
             display: 'flex',
             justifyContent: 'center', // Horizontal alignment
-            alignItems: 'center',
           }}>
-            <QuestionIcon sx={{ fontSize: 80 }} />
+            <QuestionIcon sx={{ fontSize: 80, marginLeft: 4 }} />
           </Box>
+
+          {/* GitHub */}
+          <Tooltip title="View on GitHub">
+            <IconButton
+              color="inherit"
+              href="https://github.com/Jackgito/pokemon-quiz"
+              sx={{ marginLeft: "8px" }}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <GitHubIcon />
+            </IconButton>
+          </Tooltip>
+
           <LoginAndRegisterIcon/>
 
         </Toolbar>
@@ -89,9 +117,7 @@ function ResponsiveAppBar() {
               borderTopRightRadius: '20px',
               borderBottomRightRadius: '20px',
               opacity: "100%"
-
             },
-
           }}
         >
           {drawer}

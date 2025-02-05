@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useSettings } from '../../context/SettingsProvider';
 import PokemonCountdown from './PokemonCountdown/PokemonCountdown';
 import QuestionCard from './QuestionCard/QuestionCard.jsx';
 import useFetchPokemonData from '../../hooks/useFetchPokemonData';
 import generateQuestionChoices from './utils/generateQuestionChoices';
 import GameOver from './GameOver/GameOver';
-import { useSettings } from '../../context/SettingsProvider';
 import ScoreDisplay from './ScoreDisplay/ScoreDisplay';
-import ResponsiveAppBar from '../../components/ResponsiveAppBar/ResponsiveAppBar.jsx';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import './QuizPage.css';
@@ -105,11 +104,10 @@ const QuizPage = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className="page-container">
-        <ResponsiveAppBar />
 
         {loading && 
           <div>
-            <CircularProgress size={200} />
+            <CircularProgress size={200} style={{marginTop: 200}} />
           </div>
         }
         {error && <div>Error: {error}</div>}

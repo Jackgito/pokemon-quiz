@@ -1,17 +1,23 @@
 .page-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -70%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  height: 100%;
+  justify-content: flex-start;
+  height: 800px;
   text-align: center;
   transition: background-color 0.5s ease;
-  padding-bottom: 32px;
-  background: linear-gradient(var(--accent-color), var(--secondary-color));
 }
 
 h2 {
   margin: 0px;
 }
 
+@media screen and (max-width: 768px) {
+  .page-container {
+    transform: translate(-50%, -50%);
+  }
+}

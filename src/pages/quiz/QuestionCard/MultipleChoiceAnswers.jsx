@@ -36,7 +36,7 @@ const MultipleChoiceAnswers = ({ choices, isDisabled, handleAnswer }) => {
   };
 
   return (
-    <div>
+    <div className="multiple-choice-container">
       {choices.map((choice, index) => (
         <div
           key={index}
@@ -46,7 +46,7 @@ const MultipleChoiceAnswers = ({ choices, isDisabled, handleAnswer }) => {
             ${selectedAnswer === choice.answer && !choice.correctAnswer ? 'incorrect' : ''}
           `}
           onClick={() => handleAnswerSelection(choice)}
-          style={{ cursor: isDisabled ? 'not-allowed' : 'pointer', marginTop: '16px' }}
+          style={{ cursor: isDisabled ? 'not-allowed' : 'pointer' }}
         >
           {choice.answer}
         </div>

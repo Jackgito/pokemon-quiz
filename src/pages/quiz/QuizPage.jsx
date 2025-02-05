@@ -18,7 +18,7 @@ const QuizPage = () => {
   const [currentPokemon, setCurrentPokemon] = useState(null);
   const [isSilhouette, setIsSilhouette] = useState(true);
   const [score, setScore] = useState(0);
-  const [key, setKey] = useState(0);
+  const [key, setKey] = useState(0); // Key is used to restart the timer
   const [choices, setChoices] = useState([]);
   const [gameEnded, setGameEnded] = useState(false);
 
@@ -49,7 +49,6 @@ const QuizPage = () => {
       setChoices(generateQuestionChoices(currentPokemon, remainingPokemon, difficulty));
     }
   }, [currentPokemon, difficulty]);
-
 
   const restartTimer = () => {
     setKey((prevKey) => prevKey + 1);

@@ -1,36 +1,16 @@
 import { useEffect, useState } from 'react';
+import useFetchLeaderboard from '../../hooks/useFetchLeaderboard.jsx';
 import { 
   Container, Typography, Table, TableBody, TableCell, 
   TableContainer, TableHead, TableRow, Paper, Chip, Stack, 
-  TableFooter, TablePagination, Switch, FormControlLabel, useTheme
+  TableFooter, TablePagination, Switch, FormControlLabel, useTheme, CircularProgress
 } from '@mui/material';
 
 import ResponsiveAppBar from '../../components/ResponsiveAppBar/ResponsiveAppBar.jsx';
 import ShinyText from './ShinyText.jsx';
 import useScreenSize from '../../hooks/useScreenSize.jsx';
 
-const mockData = [
-  { username: 'Alice', gamemode: 'Retro', difficulty: 'Easy', generations: 'I', correctGuesses: 50, score: 1000 },
-  { username: 'Bob', gamemode: 'Modern', difficulty: 'Normal', generations: 'II', correctGuesses: 45, score: 900 },
-  { username: 'Charlie', gamemode: 'Sound', difficulty: 'Hard', generations: 'I,II,III,IV', correctGuesses: 40, score: 800 },
-  { username: 'David', gamemode: 'Retro', difficulty: 'Hard', generations: 'I,II,III,IV,V', correctGuesses: 38, score: 750 },
-  { username: 'Eve', gamemode: 'Modern', difficulty: 'Easy', generations: 'I,II', correctGuesses: 35, score: 700 },
-  { username: 'Frank', gamemode: 'Sound', difficulty: 'Normal', generations: 'III,IV,V,VI', correctGuesses: 33, score: 650 },
-  { username: 'Grace', gamemode: 'Retro', difficulty: 'Hard', generations: 'I,II,III,IV,V,VI,VII', correctGuesses: 30, score: 600 },
-  { username: 'Hank', gamemode: 'Modern', difficulty: 'Easy', generations: 'I,III,V,VII,VIII', correctGuesses: 28, score: 550 },
-  { username: 'Ivy', gamemode: 'Sound', difficulty: 'Normal', generations: 'II,IV,VI,VIII', correctGuesses: 25, score: 500 },
-  { username: 'Jack', gamemode: 'Retro', difficulty: 'Hard', generations: 'I,II,III,IV,V,VI,VII,VIII,IX', correctGuesses: 20, score: 450 },
-  { username: 'Alice', gamemode: 'Retro', difficulty: 'Easy', generations: 'I', correctGuesses: 50, score: 1000 },
-  { username: 'Bob', gamemode: 'Modern', difficulty: 'Normal', generations: 'II', correctGuesses: 45, score: 900 },
-  { username: 'Charlie', gamemode: 'Sound', difficulty: 'Hard', generations: 'I,II,III,IV', correctGuesses: 40, score: 800 },
-  { username: 'David', gamemode: 'Retro', difficulty: 'Hard', generations: 'I,II,III,IV,V', correctGuesses: 38, score: 750 },
-  { username: 'Eve', gamemode: 'Modern', difficulty: 'Easy', generations: 'I,II', correctGuesses: 35, score: 700 },
-  { username: 'Frank', gamemode: 'Sound', difficulty: 'Normal', generations: 'III,IV,V,VI', correctGuesses: 33, score: 650 },
-  { username: 'Grace', gamemode: 'Retro', difficulty: 'Hard', generations: 'I,II,III,IV,V,VI,VII', correctGuesses: 30, score: 600 },
-  { username: 'Hank', gamemode: 'Modern', difficulty: 'Easy', generations: 'I,III,V,VII,VIII', correctGuesses: 28, score: 550 },
-  { username: 'Ivy', gamemode: 'Sound', difficulty: 'Normal', generations: 'II,IV,VI,VIII', correctGuesses: 25, score: 500 },
-  { username: 'Jack', gamemode: 'Retro', difficulty: 'Hard', generations: 'I,II,III,IV,V,VI,VII,VIII,IX', correctGuesses: 20, score: 450 },
-];
+
 
 // Renders chips for generations
 const formatGenerations = (generations) => (
@@ -53,6 +33,7 @@ const getRowClass = (index, page) => {
 const LeaderboardRow = ({ player, index, page, detailedView }) => {
   const theme = useTheme();
   const { color, shineColor } = getRowClass(index, page);
+
   const renderText = (text) =>
     color ? <ShinyText text={text} disabled={false} speed={3} color={color} shineColor={shineColor} /> : text;
 
@@ -94,11 +75,21 @@ const LeaderboardHeader = ({ detailedView }) => (
 const rowsPerPage = 100;
 
 const Leaderboard = () => {
+  const { leaderboardData, loading, error, fetchLeaderboard } = useFetchLeaderboard();
   const { isMobile } = useScreenSize();
+
   const [page, setPage] = useState(0);
   const [detailedView, setDetailedView] = useState(!isMobile);
+
   const theme = useTheme();
-  const sortedData = mockData.sort((a, b) => b.score - a.score);
+
+  useEffect(() => {
+    if (!leaderboardData || leaderboardData.length === 0) {
+      fetchLeaderboard();
+    }
+  }, [leaderboardData, fetchLeaderboard]);
+
+  const sortedData = leaderboardData.sort((a, b) => b.score - a.score);
 
   useEffect(() => {
     if (isMobile) setDetailedView(false);
@@ -109,53 +100,62 @@ const Leaderboard = () => {
       <ResponsiveAppBar />
       <div style={{backgroundColor: theme.palette.tertiary.main, height: "10vh"}}></div>
 
-    <Container maxWidth="xl" sx={{ marginTop: 4 }}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
-        <Typography variant="h4" gutterBottom>Leaderboard</Typography>
-        {!isMobile && (
-          <FormControlLabel
-            control={<Switch checked={detailedView} onChange={() => setDetailedView(!detailedView)} color="primary" />}
-            label={detailedView ? "Detailed View" : "Simple View"}
-          />
-        )}
-      </Stack>
+      {loading && 
+        <div>
+          <CircularProgress size={200} style={{marginTop: 200}} />
+        </div>
+      }
 
-      <TableContainer component={Paper}
-        sx={{
-          backgroundColor: theme.palette.tertiary.dark,
-          maxHeight: `${(isMobile ? 11 : 16) * 58.1}px`, // Adjust row height if needed
-          overflow: 'auto',
-        }}
-      >
-        <Table>
-          <LeaderboardHeader detailedView={detailedView} />
-          <TableBody>
-            {sortedData
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((player, index) => (
-                <LeaderboardRow key={index} player={player} index={index} page={page} detailedView={detailedView} />
-              ))}
-          </TableBody>
+      {!loading && !error && (
+        <Container maxWidth="xl" sx={{ marginTop: 4 }}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <Typography variant="h4" gutterBottom>Leaderboard</Typography>
+            {!isMobile && (
+              <FormControlLabel
+                control={<Switch checked={detailedView} onChange={() => setDetailedView(!detailedView)} color="primary" />}
+                label={detailedView ? "Detailed View" : "Simple View"}
+              />
+            )}
+          </Stack>
 
-          {/* Pagination. Show only if more than 100 rows */}
-          {sortedData.length > rowsPerPage && (
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  style={{ color: 'white', fill: 'white' }}
-                  count={sortedData.length}
-                  rowsPerPage={rowsPerPage}
-                  rowsPerPageOptions={[]}
-                  page={page}
-                  onPageChange={(event, newPage) => setPage(newPage)}
-                />
-              </TableRow>
-            </TableFooter>
-          )}
+          <TableContainer component={Paper}
+            sx={{
+              backgroundColor: theme.palette.tertiary.dark,
+              maxHeight: `${(isMobile ? 11 : 16) * 58.1}px`,
+              overflow: 'auto',
+            }}
+          >
+            <Table>
+              <LeaderboardHeader detailedView={detailedView} />
+              { leaderboardData && leaderboardData.length === 0 && <div style={{margin: 10, color: 'white'}}>No data found</div> }
+              <TableBody>
+                {sortedData
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((player, index) => (
+                    <LeaderboardRow key={index} player={player} index={index} page={page} detailedView={detailedView} />
+                  ))}
+              </TableBody>
 
-        </Table>
-      </TableContainer>
-    </Container>
+              {/* Pagination. Show only if more than 100 rows */}
+              {sortedData.length > rowsPerPage && (
+                <TableFooter>
+                  <TableRow>
+                    <TablePagination
+                      style={{ color: 'white', fill: 'white' }}
+                      count={sortedData.length}
+                      rowsPerPage={rowsPerPage}
+                      rowsPerPageOptions={[]}
+                      page={page}
+                      onPageChange={(event, newPage) => setPage(newPage)}
+                    />
+                  </TableRow>
+                </TableFooter>
+              )}
+
+            </Table>
+          </TableContainer>
+        </Container>
+      )}
     </>
   );
 };

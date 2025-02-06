@@ -1,3 +1,7 @@
+body {
+  overflow: hidden; /*Prevent scrolling, which can be used to "hide" elements outside of the screen */
+}
+
 .top-div {
   background-color: var(--theme-palette-primary-main);
   height: 45vh;

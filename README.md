@@ -64,8 +64,12 @@ Old app:
 
 ## Coding practices
 - Folder's first letter should be capitalized if it is used for component. Otherwise it should be small.
-
 - Please use MUI themes when applying colors
+
+## Known issues
+- Easy mode doesn't look good on mobile
+- Inspection tool can be used to cheat the Pokemon id
+- Some animatated sprites provided by PokeApi are not animated (like Ferroseed)
 
 ## Credits
 Fonts: 

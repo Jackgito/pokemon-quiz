@@ -6,6 +6,7 @@
 
 import './ShinyText.css';
 
+// HEX colors don't seem to work
 const ShinyText = ({ text, disabled, speed, color, shineColor }) => {
   const style = {
     animationDuration: `${speed}s`,

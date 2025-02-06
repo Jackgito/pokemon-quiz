@@ -23,7 +23,6 @@ html, body {
   margin: 0;
   padding: 0;
   background-color: #dbdbdb !important;
-  overflow: hidden; /*Prevent scrolling, which can be used to "hide" elements outside of the screen */
 }
 
 @font-face {
@@ -32,4 +31,23 @@ html, body {
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+}
+
+/* Custom scrollbar for Webkit browsers */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #222; /* Dark background */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4d4b4b; /* Light gray */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Darker gray */
 }

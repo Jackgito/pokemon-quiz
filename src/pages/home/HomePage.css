@@ -13,11 +13,24 @@
 }
 
 .top-div h1 {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
 }
 
 .top-div p {
-  font-size: 1rem;
+  font-size: 1.2rem;
+  width: 90%;
+}
+
+@media screen and (max-width: 768px) {
+  .top-div h1 {
+    font-size: 1.5rem;
+  }
+
+  .top-div p {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  
 }
 
 .middle-div {

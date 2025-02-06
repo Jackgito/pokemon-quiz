@@ -100,6 +100,7 @@ const PokemonCountdown = ({ duration, strokeWidth, onComplete, pause, pokemonDat
         <img
           src={quizType === 'Retro' ? pokemonData?.imageUrl : pokemonData?.animationUrl}
           className={`pokemon-image ${quizType === 'Retro' ? '' : 'retro-mode'} ${isSilhouette ? 'silhouette' : 'no-silhouette'}`}
+          alt="Pokemon"
         />
       )}
       </div>

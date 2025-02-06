@@ -1,34 +1,32 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import ConfettiGenerator from "../ConfettiGenerator/ConfettiGenerator";
 import Button from '@mui/material/Button';
-import { Snackbar, AlertTitle, Alert } from '@mui/material';
+import { ToastContext } from '../../../context/ToastProvider';
 
 const GameOver = ({ score, restartGame, gameEnded, correctPokemonName }) => {
-  const [alertType, setAlertType] = useState(null);
   const [showConfetti, setShowConfetti] = useState(false);
   const [effectTriggered, setEffectTriggered] = useState(false);
+  const { showToast } = useContext(ToastContext);
 
   useEffect(() => {
     if (gameEnded && !effectTriggered) {
       const highScore = parseInt(localStorage.getItem('highScore')) || 0;
-      setAlertType("gameOver"); // Always show Game Over first
+
+      showToast('Game over!', `The correct Pokémon was ${correctPokemonName}!`, 'error');
 
       if (score > highScore) {
         localStorage.setItem('highScore', score);
         setTimeout(() => {
-          setAlertType("highScore");
+          showToast('New high score!', `The correct Pokémon was ${correctPokemonName}!`, 'success');
           setShowConfetti(true);
         }, 2500);
       }
 
       setEffectTriggered(true);
     }
-  }, [gameEnded, score, effectTriggered]);
-
-  const handleClose = () => setAlertType(null);
+  }, [gameEnded, score, effectTriggered, correctPokemonName, showToast]);
 
   const handleRestart = () => {
-    setAlertType(null);
     setShowConfetti(false);
     setEffectTriggered(false);
     restartGame();
@@ -36,22 +34,6 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName }) => {
 
   return (
     <div className="game-over">
-      <Snackbar 
-        open={!!alertType}
-        autoHideDuration={8000}
-        onClose={handleClose}
-      >
-        <Alert
-          variant='outlined'
-          onClose={handleClose} 
-          severity={alertType === "highScore" ? "success" : "error"} 
-          sx={{ width: '100%', display: alertType ? '' : 'none', backgroundColor: 'white' }}
-        >
-          <AlertTitle>{alertType === "highScore" ? "New high score!" : "Game over!"}</AlertTitle>
-          The correct Pokémon was {correctPokemonName}!
-        </Alert>
-      </Snackbar>
-
       {/* Confetti appears only for high score */}
       {showConfetti && <ConfettiGenerator />}
 

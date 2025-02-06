@@ -10,23 +10,18 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import './QuizPage.css';
 
-import HomeTheme from "../../themes/HomeTheme.jsx";
-import { ThemeProvider } from "@mui/material";
-
 const QuizPage = () => {
   const [remainingPokemon, setRemainingPokemon] = useState([]);
   const [currentPokemon, setCurrentPokemon] = useState(null);
   const [isSilhouette, setIsSilhouette] = useState(true);
   const [score, setScore] = useState(0);
-  const [key, setKey] = useState(0);
+  const [key, setKey] = useState(0); // Key is used to restart the timer
   const [choices, setChoices] = useState([]);
   const [gameEnded, setGameEnded] = useState(false);
 
   const { pokemonData, loading, error, fetchPokemonData } = useFetchPokemonData();
 
   const { difficulty } = useSettings();
-
-  const theme = HomeTheme();
 
   useEffect(() => {
     if (!pokemonData || pokemonData.length === 0) {
@@ -49,7 +44,6 @@ const QuizPage = () => {
       setChoices(generateQuestionChoices(currentPokemon, remainingPokemon, difficulty));
     }
   }, [currentPokemon, difficulty]);
-
 
   const restartTimer = () => {
     setKey((prevKey) => prevKey + 1);
@@ -102,7 +96,7 @@ const QuizPage = () => {
   if (difficulty === 'Normal' || difficulty === 'Hard') { timerDuration = 10; }
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <div className="page-container">
 
         {loading && 
@@ -141,7 +135,7 @@ const QuizPage = () => {
           </>
         )}
       </div>
-    </ThemeProvider>
+    </>
   );
 };
 

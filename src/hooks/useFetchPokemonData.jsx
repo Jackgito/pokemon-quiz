@@ -67,7 +67,7 @@ const useFetchPokemonData = () => {
   
     } catch (err) {
       setError(err.message || "Failed to fetch Pokémon data");
-      showToast("Failed to load Pokémon data.", "error");
+      showToast("Error", "Failed to load Pokémon data.", "error");
     } finally {
       setLoading(false);
     }

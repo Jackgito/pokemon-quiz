@@ -1,10 +1,9 @@
-
-/* eslint-disable react/prop-types */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import TextField from '@mui/material/TextField';
 
 const WrittenAnswer = ({ correctAnswer, isDisabled, handleAnswer }) => {
   const [inputValue, setInputValue] = useState('');
+  const inputRef = useRef(null); // Ref to manage focus on the input
 
   // Handle input change
   const handleInputChange = (event) => {
@@ -20,6 +19,10 @@ const WrittenAnswer = ({ correctAnswer, isDisabled, handleAnswer }) => {
   // Reset the input when the correctAnswer changes
   useEffect(() => {
     setInputValue('');
+    // Focus the input field when the correctAnswer changes
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   }, [correctAnswer]);
 
   return (
@@ -30,6 +33,7 @@ const WrittenAnswer = ({ correctAnswer, isDisabled, handleAnswer }) => {
         onChange={handleInputChange}
         disabled={isDisabled}
         fullWidth
+        inputRef={inputRef} // Attach ref to the input element
         sx={{
           input: { color: 'white' },
           '& .MuiOutlinedInput-root': {

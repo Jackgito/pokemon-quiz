@@ -17,6 +17,7 @@ import { Close } from "@mui/icons-material";
 import DifficultySwitch from "./SettingsMenu/DifficultySwitch.jsx";
 import QuizTypeSwitch from "./SettingsMenu/QuizTypeSwitch.jsx";
 import LoginAndRegisterIcon from "../../pages/home/Login/LoginAndRegisterIcon.jsx";
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
 function ResponsiveAppBar() {
 
@@ -67,21 +68,35 @@ function ResponsiveAppBar() {
           </IconButton>
 
           {/* Home */}
-          <IconButton
-            color="inherit"
-            edge="start"
-            href="/"
-            sx={{ marginLeft: "8px" }}
-          >
-            <HomeIcon />
-          </IconButton>
+          <Tooltip title="Home">
+            <IconButton
+              color="inherit"
+              edge="start"
+              href="/"
+              sx={{ marginLeft: "4px" }}
+            >
+              <HomeIcon />
+            </IconButton>
+          </Tooltip>
+
+          {/* Leaderboard */}
+          <Tooltip title="Leaderboard">
+            <IconButton
+              color="inherit"
+              edge="start"
+              href="/leaderboard"
+              sx={{ marginLeft: "4px" }}
+            >
+              <EmojiEventsIcon />
+            </IconButton>
+          </Tooltip>
 
           <Box sx={{
             flexGrow: 1,
             display: 'flex',
             justifyContent: 'center', // Horizontal alignment
           }}>
-            <QuestionIcon sx={{ fontSize: 80, marginLeft: 4 }} />
+            <QuestionIcon sx={{ fontSize: 80, marginRight: 4 }} />
           </Box>
 
           {/* GitHub */}
@@ -89,7 +104,7 @@ function ResponsiveAppBar() {
             <IconButton
               color="inherit"
               href="https://github.com/Jackgito/pokemon-quiz"
-              sx={{ marginLeft: "8px" }}
+              sx={{ marginLeft: "4px" }}
               target="_blank"
               rel="noopener noreferrer"
             >

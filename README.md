@@ -10,6 +10,9 @@ Who's That Pokémon is an interactive quiz game that challenges players to ident
 - Sound Mode: Recognize Pokémon by their cries.
 - Retro Mode: A nostalgic twist with classic Pokémon sprites.
 - Multiple Difficulty Levels: Adjust the challenge based on your Pokémon expertise.
+- Follows best SEO, accessibility and performance practices
+![image](https://github.com/user-attachments/assets/d9efdd37-6be1-4464-990f-c257e9ea04b2)
+
 
 ## Pictures
 
@@ -39,9 +42,7 @@ Who's That Pokémon is an interactive quiz game that challenges players to ident
 ---
 
 ## Roadmap
-
 - Finish user creation / login logic
-- Add leaderboards section
 - Score multipliers depending on the settings
 
 ---

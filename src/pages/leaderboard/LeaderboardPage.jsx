@@ -98,18 +98,18 @@ const Leaderboard = () => {
   return (
     <>
       <ResponsiveAppBar />
-      <div style={{backgroundColor: theme.palette.tertiary.main, height: "10vh"}}></div>
+      <div style={{backgroundColor: theme.palette.tertiary.main, height: "60px"}}></div>
 
-      {loading && 
-        <div>
+      {loading &&
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           <CircularProgress size={200} style={{marginTop: 200}} />
         </div>
       }
 
       {!loading && !error && (
         <Container maxWidth="xl" sx={{ marginTop: 4 }}>
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography variant="h4" gutterBottom>Leaderboard</Typography>
+          <Stack direction="row" alignItems="center" justifyContent={isMobile ? "center" : "space-between"}>
+            <Typography variant={isMobile ? "h5" : "h4"} gutterBottom>Leaderboard</Typography>
             {!isMobile && (
               <FormControlLabel
                 control={<Switch checked={detailedView} onChange={() => setDetailedView(!detailedView)} color="primary" />}
@@ -121,11 +121,13 @@ const Leaderboard = () => {
           <TableContainer component={Paper}
             sx={{
               backgroundColor: theme.palette.tertiary.dark,
-              maxHeight: `${(isMobile ? 11 : 16) * 58.1}px`,
-              overflow: 'auto',
+              maxHeight: `${(isMobile ? "63vh" : "76vh")}`,
+              overflowY: "auto", // Enable only vertical scrolling
+              overflowX: "hidden", // Hide horizontal scrolling
+
             }}
           >
-            <Table>
+            <Table size={isMobile ? "small" : ""}>
               <LeaderboardHeader detailedView={detailedView} />
               { leaderboardData && leaderboardData.length === 0 && <div style={{margin: 10, color: 'white'}}>No data found</div> }
               <TableBody>

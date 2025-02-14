@@ -85,6 +85,7 @@ Who's That Pokémon is an interactive quiz game that challenges players to ident
 - Easy mode doesn't look good on mobile
 - Inspection tool can be used to cheat the Pokemon id
 - Some animatated sprites provided by PokeApi are not animated (like Ferroseed)
+- Doesn't work well with very small devices
 
 ## Credits
 Fonts: 

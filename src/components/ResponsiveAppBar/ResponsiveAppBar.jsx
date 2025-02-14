@@ -16,8 +16,10 @@ import QuestionIcon from "../../themes/custom_icons/QuestionIcon.jsx";
 import { Close } from "@mui/icons-material";
 import DifficultySwitch from "./SettingsMenu/DifficultySwitch.jsx";
 import QuizTypeSwitch from "./SettingsMenu/QuizTypeSwitch.jsx";
-import LoginAndRegisterIcon from "../../pages/home/Login/LoginAndRegisterIcon.jsx";
+import LoginAndRegisterIcon from "./LoginAndRegistration/LoginAndRegisterIcon.jsx";
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+
+import "./ResponsiveAppBar.css"
 
 function ResponsiveAppBar() {
 
@@ -74,6 +76,7 @@ function ResponsiveAppBar() {
               edge="start"
               href="/"
               sx={{ marginLeft: "4px" }}
+              className="shake"
             >
               <HomeIcon />
             </IconButton>
@@ -86,6 +89,7 @@ function ResponsiveAppBar() {
               edge="start"
               href="/leaderboard"
               sx={{ marginLeft: "4px" }}
+              className="shake"
             >
               <EmojiEventsIcon />
             </IconButton>
@@ -96,7 +100,7 @@ function ResponsiveAppBar() {
             display: 'flex',
             justifyContent: 'center', // Horizontal alignment
           }}>
-            <QuestionIcon sx={{ fontSize: 80, marginRight: 4 }} />
+            <QuestionIcon sx={{ fontSize: 80, marginRight: 1 }} />
           </Box>
 
           {/* GitHub */}
@@ -107,12 +111,13 @@ function ResponsiveAppBar() {
               sx={{ marginLeft: "4px" }}
               target="_blank"
               rel="noopener noreferrer"
+              className="shake"
             >
               <GitHubIcon />
             </IconButton>
           </Tooltip>
 
-          <LoginAndRegisterIcon/>
+          <LoginAndRegisterIcon />
 
         </Toolbar>
       </AppBar>

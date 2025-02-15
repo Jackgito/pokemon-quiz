@@ -59,20 +59,20 @@
 
 .middle-div.move:nth-child(1) {
   transition: transform 1.5s ease;
-  transform: translateY(-40vh);
+  transform: translateY(-42vh);
 }
 
 .middle-div.move:nth-child(3) {
   transition: transform 1.5s ease;
-  transform: translateY(45vh);
+  transform: translateY(46vh);
 }
 
 .top-div.move {
   transition: transform 1.5s ease;
-  transform: translateY(-40vh);
+  transform: translateY(-42vh);
 }
 
 .bottom-div.move {
   transition: transform 1.5s ease;
-  transform: translateY(45vh);
+  transform: translateY(46vh);
 }

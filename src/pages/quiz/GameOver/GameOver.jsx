@@ -42,7 +42,7 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName }) => {
         sx={{ 
           backgroundColor: '#333333',
           '&:hover': { backgroundColor: 'grey'},
-          marginTop: '1rem',
+          marginTop: '5px',
           visibility: gameEnded ? 'visible' : 'hidden', 
         }} 
         onClick={handleRestart}

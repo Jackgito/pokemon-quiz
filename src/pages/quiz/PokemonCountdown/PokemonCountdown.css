@@ -33,8 +33,8 @@
 }
 
 .pokemon-image {
-  width: 85%;
-  height: 85%;
+  width: 100%;
+  height: 100%;
   transition: filter 0.5s ease;
   object-fit: contain;
 }

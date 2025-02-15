@@ -72,6 +72,17 @@
   transform: translateY(-42vh);
 }
 
+@media (max-width: 410px) {
+  .top-div.move {
+    transform: translateY(-50vh);
+  }
+  .middle-div.move:nth-child(1) {
+    transition: transform 1.5s ease;
+    transform: translateY(-50vh);
+  }
+}
+
+
 .bottom-div.move {
   transition: transform 1.5s ease;
   transform: translateY(46vh);

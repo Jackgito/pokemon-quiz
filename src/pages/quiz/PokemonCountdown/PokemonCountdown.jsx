@@ -15,7 +15,7 @@ const PokemonCountdown = ({ duration, strokeWidth, onComplete, pause, pokemonDat
 
   useEffect(() => {
     if (isMobile) {
-      setSize(250);
+      setSize(220);
     } else {
       setSize(350);
     }

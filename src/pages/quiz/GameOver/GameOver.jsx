@@ -25,7 +25,7 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName }) => {
 
 
       const highScore = await getHighscore();
-
+      //console.log("highScore " + highScore)
       if (highScore === null) {
         setEffectTriggered(true);
         return;
@@ -37,7 +37,7 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName }) => {
         setTimeout(() => {
           showToast('New high score!', `The correct Pokémon was ${correctPokemonName}!`, 'success');
           setShowConfetti(true);
-          sendScore();
+          sendScore(score);
         }, 2500);
       }
 
@@ -62,14 +62,13 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName }) => {
     return mapping[level.toLowerCase()] || 0;
   }
 
-  const sendScore = async () => {
+  const sendScore = async (correctGuesses) => {
     const user = getUser();
     if (!user) {
       console.log("No user logged in, cannot send request")
       return;
     }
 
-    const correctGuesses = parseInt(localStorage.getItem('highScore'))
     const difficulty = localStorage.getItem('difficulty')
     const gamemode = localStorage.getItem('quizType')
     let generations = getSelectedGenerations();

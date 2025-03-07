@@ -68,6 +68,7 @@ function ResponsiveAppBar() {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
+            className="shake"
           >
             <MenuIcon />
           </IconButton>

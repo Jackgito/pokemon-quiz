@@ -9,3 +9,7 @@
 .shake:hover {
   animation: shake 0.5s ease-in-out;
 }
+
+.MuiAvatar-circular {
+  font-size: 0.8rem !important;
+}

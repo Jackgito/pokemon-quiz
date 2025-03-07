@@ -87,7 +87,7 @@ const LoginProvider = ({ children }) => {
             const response = await fetch("/api/auth/login", options);
             if (response.ok) {
                 const data = await response.json();
-                console.log("Login request successful, welcome:  " + data.first_name);
+                showToast('Login successful', 'Welcome!', 'success');
                 return {message:"login succesfull",userdata:data, success: true};
             } else {
                 console.error("Login request failed with status:", response.status);

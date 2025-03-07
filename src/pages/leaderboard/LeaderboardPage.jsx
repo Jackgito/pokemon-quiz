@@ -41,7 +41,18 @@ const LeaderboardRow = ({ player, index, page, detailedView }) => {
   return (
     <TableRow sx={{ backgroundColor: theme.palette.tertiary.main }}>
       <TableCell style={{ color: 'white' }}>{renderText(index + 1 + page * rowsPerPage)}</TableCell>
-      <TableCell style={{ color: 'white' }}>{renderText(player.username)}</TableCell>
+      <TableCell 
+        style={{ 
+          color: 'white', 
+          maxWidth: '150px', // Adjust width as needed
+          whiteSpace: 'nowrap', 
+          overflow: 'hidden', 
+          textOverflow: 'ellipsis'
+        }} 
+        title={player.username} // Tooltip to show full username on hover
+      >
+        {renderText(player.username)}
+      </TableCell>
       <TableCell style={{ color: 'white' }}>{renderText(player.score)}</TableCell>
       {detailedView && (
         <>
@@ -58,7 +69,7 @@ const LeaderboardRow = ({ player, index, page, detailedView }) => {
 const LeaderboardHeader = ({ detailedView }) => (
   <TableHead>
     <TableRow>
-      <TableCell style={{ color: 'white' }}>Ranking</TableCell>
+      <TableCell style={{ color: 'white' }}>Rank</TableCell>
       <TableCell style={{ color: 'white' }}>Username</TableCell>
       <TableCell style={{ color: 'white' }}>Score</TableCell>
       {detailedView && (
@@ -155,7 +166,6 @@ const Leaderboard = () => {
                   </TableRow>
                 </TableFooter>
               )}
-
             </Table>
           </TableContainer>
         </Container>

@@ -21,10 +21,12 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { useLogin } from "../../context/LoginProvider.jsx";
 import "./ResponsiveAppBar.css"
 import UserIcon from "./userMenu/UserIcon.jsx";
+import useScreenSize from '../../hooks/useScreenSize.jsx';
 
 function ResponsiveAppBar() {
 
   const { user } = useLogin()
+  const { isMobile } = useScreenSize();
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const handleDrawerToggle = () => {
@@ -99,13 +101,15 @@ function ResponsiveAppBar() {
             </IconButton>
           </Tooltip>
 
-          <Box sx={{
-            flexGrow: 1,
-            display: 'flex',
-            justifyContent: 'center', // Horizontal alignment
-          }}>
-            <QuestionIcon sx={{ fontSize: 80, marginRight: 1 }} />
-          </Box>
+            <Box sx={{
+              flexGrow: 1,
+              display: 'flex',
+              justifyContent: 'center', // Horizontal alignment
+            }}>
+              {!isMobile && (
+              <QuestionIcon sx={{ fontSize: 80, marginRight: 3 }} />
+              )}
+            </Box>
 
           {/* GitHub */}
           <Tooltip title="View on GitHub">

@@ -19,7 +19,7 @@ const UserIcon = ({user}) => {
 
 	return (
 		<Box sx={{ flexGrow: 0, marginLeft: '4px' }}>
-			<Tooltip title="Sign up or Log in">
+			<Tooltip title="Sign up or Log in to save best score to leaderboard">
 				<Avatar {...stringAvatar(user.first_name + " " + user.last_name)} src={user.pic} onClick = {handleOpenSignUpMenu} className="shake">
 
 				</Avatar>

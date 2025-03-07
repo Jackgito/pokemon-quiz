@@ -17,7 +17,7 @@ const LoginAndRegisterIcon = () => {
 
   return (
     <Box sx={{ flexGrow: 0, marginLeft: '4px' }}>
-      <Tooltip title="Sign up or Log in">
+      <Tooltip title="Sign up or Log in to save best score to leaderboard">
         <IconButton onClick={handleOpenSignUpMenu} sx={{ color: 'white' }} className="shake">
           <Face sx={{ color: 'white' }} />
         </IconButton>

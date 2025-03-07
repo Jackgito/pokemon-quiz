@@ -6,7 +6,7 @@ const Login = () => {
   const { logIn } = useLogin()
 
   const [formData, setFormData] = useState({
-    email:"",
+    username:"",
     password:""
   });
 
@@ -33,16 +33,13 @@ const Login = () => {
             <form onSubmit={handleSubmit} onChange={handleChange}>
                 <Stack direction={"column"} spacing={2}>
                     <TextField
-                      data-testid= "email-field"
-                      label="Email"
+                      data-testid= "username-field"
+                      label="Username"
                       variant="outlined"
                       fullWidth
-                      type="email"
-                      name="email"
-                      //helperText={!wrongEmail ? "":"Incorrect Email"}
-                      //error={wrongEmail}
+                      type="username"
+                      name="username"
                       required
-                      //onChange={(e) => setEmail(e.target.value)}
                     />
                     <TextField
                       data-testid= "password-field"
@@ -51,10 +48,7 @@ const Login = () => {
                       fullWidth
                       type="password"
                       name="password"
-                      //helperText={!wrongPassword ? "":"Password incorrect"}
-                      //error={wrongPassword}
                       required
-                      //onChange={(e) => setPassword(e.target.value)}
                     />
                     <Button
                       sx={{borderRadius:"25px"}}

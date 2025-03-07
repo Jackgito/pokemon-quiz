@@ -12,4 +12,5 @@
 
 .MuiAvatar-circular {
   font-size: 0.8rem !important;
+  background-color: rgb(56, 56, 56) !important;
 }

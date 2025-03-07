@@ -1,13 +1,7 @@
-/* eslint-disable react/prop-types */
-
 import {createContext, useContext, useEffect, useState} from 'react';
 import {ToastContext} from "./ToastProvider.jsx";
 
-
-
-
 const LoginContext = createContext();
-
 
 const LoginProvider = ({ children }) => {
 
@@ -15,16 +9,18 @@ const LoginProvider = ({ children }) => {
     const { showToast } = useContext(ToastContext);
 
     useEffect( () => {
-        fetch_user();
+        fetchUser();
     }, []);
 
-    const fetch_user = async () => {
+    const fetchUser = async () => {
+
+        if (document.cookie.length === 0) return;
+
         const response = await fetch('/api/user');
         if (response.ok) {
             const userData = await response.json();
             setUser(userData);
         }
-
     }
 
     const logIn = async (userObject) => {
@@ -114,17 +110,17 @@ const LoginProvider = ({ children }) => {
             if (response.ok) {
                 const user = await response.json();
                 showToast('Registration successful', 'Login with your new account', 'success')
-                return {message: "Sign up successful", success: true, user:user}
+                return {message: "Registration successful", success: true, user:user}
             } else {
                 const data = await response.json()
                 showToast('Registration failed', data.message, 'error')
-                return {message: "Sign up failed", success: false}
+                return {message: "Registration failed", success: false}
 
             }
         } catch (error) {
             console.error("Fetch error in registration:", error);
             showToast('Registration failed', error, 'error')
-            return {message: "Sign up failed", success: false}
+            return {message: "Registration failed", success: false}
 
         }
     };

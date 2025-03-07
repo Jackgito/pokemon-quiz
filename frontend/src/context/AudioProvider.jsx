@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 // This is not currently used anywhere since it seems impossible to run music on page load
 
 import { createContext, useContext, useState, useEffect, useRef } from 'react';

@@ -9,6 +9,7 @@ import {
 import ResponsiveAppBar from '../../components/ResponsiveAppBar/ResponsiveAppBar.jsx';
 import ShinyText from './ShinyText.jsx';
 import useScreenSize from '../../hooks/useScreenSize.jsx';
+import {useLogin} from "../../context/LoginProvider.jsx";
 
 
 
@@ -77,6 +78,7 @@ const rowsPerPage = 100;
 const Leaderboard = () => {
   const { leaderboardData, loading, error, fetchLeaderboard } = useFetchLeaderboard();
   const { isMobile } = useScreenSize();
+  const { user } = useLogin();
 
   const [page, setPage] = useState(0);
   const [detailedView, setDetailedView] = useState(!isMobile);

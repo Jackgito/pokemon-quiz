@@ -17,14 +17,14 @@ createRoot(document.getElementById('root')).render(
     <ThemeProvider theme={HomeTheme()}>
       <ToastProvider>
         <SettingsProvider>
-            <LoginProvider>
-                <Router>
-                    <Routes>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/leaderboard" element={<LeaderboardPage />} />
-                    </Routes>
-                </Router>
-            </LoginProvider>
+          <LoginProvider>
+            <Router>
+              <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/leaderboard" element={<LeaderboardPage />} />
+              </Routes>
+            </Router>
+          </LoginProvider>
         </SettingsProvider>
       </ToastProvider>
     </ThemeProvider>

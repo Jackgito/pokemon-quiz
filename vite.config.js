@@ -5,7 +5,15 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server:{
-    cors:true
-    //TODO: DO NOT DO THIS IN PRODUCTION
+    cors:true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+        timeout: 120000,
+        proxyTimeout: 120000
+      }
+    }
   }
 })

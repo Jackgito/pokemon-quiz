@@ -15,7 +15,7 @@ const useFetchLeaderboard = () => {
     setError(null);
   
     try {
-      const response = await fetch('https://api.example.com/leaderboard'); // Replace with real API endpoint
+      const response = await fetch('/api/leaderboard/'); // Replace with real API endpoint
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

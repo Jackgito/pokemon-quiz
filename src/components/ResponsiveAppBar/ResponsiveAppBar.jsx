@@ -18,10 +18,13 @@ import DifficultySwitch from "./SettingsMenu/DifficultySwitch.jsx";
 import QuizTypeSwitch from "./SettingsMenu/QuizTypeSwitch.jsx";
 import LoginAndRegisterIcon from "./LoginAndRegistration/LoginAndRegisterIcon.jsx";
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-
+import { useLogin } from "../../context/LoginProvider.jsx";
 import "./ResponsiveAppBar.css"
+import UserIcon from "./userMenu/UserIcon.jsx";
 
 function ResponsiveAppBar() {
+
+  const { user } = useLogin()
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const handleDrawerToggle = () => {
@@ -116,9 +119,7 @@ function ResponsiveAppBar() {
               <GitHubIcon />
             </IconButton>
           </Tooltip>
-
-          <LoginAndRegisterIcon />
-
+          {user ?  <UserIcon user={user}/> : <LoginAndRegisterIcon/>}
         </Toolbar>
       </AppBar>
       <nav>

@@ -1,22 +1,33 @@
 /* eslint-disable react/prop-types */
 
-import { createContext, useContext, useState } from 'react';
+import {createContext, useContext, useEffect, useState} from 'react';
+import {ToastContext} from "./ToastProvider.jsx";
+
+
+
 
 const LoginContext = createContext();
 
-const exampleProfile = {
-    first_name: "Arttu",
-    last_name: "Korpela",
-    password:"test123",
-    email: "arttu@email.com",
-    pic: "./public/test2.png"
-}
 
 const LoginProvider = ({ children }) => {
 
     const [user, setUser] = useState();
+    const { showToast } = useContext(ToastContext);
 
-    const logIn = (userObject) => {
+    useEffect( () => {
+        fetch_user();
+    }, []);
+
+    const fetch_user = async () => {
+        const response = await fetch('/api/user');
+        if (response.ok) {
+            const userData = await response.json();
+            setUser(userData);
+        }
+
+    }
+
+    const logIn = async (userObject) => {
 
         if (user) {
             return {message: "user already logged in.", success: false};
@@ -26,39 +37,54 @@ const LoginProvider = ({ children }) => {
             return {message: "no password", success: false};
         }
         const response = sendLogin(userObject.email, userObject.password);
+
+        if ((await response).success) {
+            setUser((await response).userdata);
+            localStorage.setItem("user", (await response).userdata._id)
+        }
+        else {
+            showToast('Login failed', `Check your password and email`, 'error');
+        }
+
         return response
     }
 
-    const logOut = () => {
+    const logOut = async () => {
         if (!user) {
             return {message: "user not logged in.", success: false};
         }
-        //TODO: Remove Cookie
+        console.log("Reached")
+        try {
+            const response = await fetch("/api/auth/logout");
+            if (response.ok) {
+                showToast('You logged out', `User ${user.email} logged out`, 'success');
+            } else {
+                console.log("Error in logOut");
+            }
+        } catch (err) {
+            console.log(err)
+        }
 
         setUser(null);
-        return {message: "user logged out", success: true};
+        return;
     }
 
     const signUp = async (userObject) => {
-        //TODO: Create request to server
-
-        const response = await sendRegistration(userObject);
-        console.log("RESPONSE: "+ response)
-
-        return response;
+        return await sendRegistration(userObject);
     }
 
     const sendLogin = async (email, password) => {
         let options = {
             method: "POST",
             mode: "cors",
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
             },
             body: JSON.stringify({email:email, password:password}),
         };
         try {
-            const response = await fetch("http://127.0.0.1:8000/login", options);
+            const response = await fetch("/api/auth/login", options);
             if (response.ok) {
                 const data = await response.json();
                 console.log("Login request successful, welcome:  " + data.first_name);
@@ -71,9 +97,6 @@ const LoginProvider = ({ children }) => {
             console.error("Fetch error in login:", error);
             return {message:"Error in login protocol", success: false};
         }
-
-
-
     }
 
     const sendRegistration = async (userObject) => {
@@ -87,17 +110,22 @@ const LoginProvider = ({ children }) => {
         };
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/register", options);
+            const response = await fetch("http://127.0.0.1:8080/auth/register", options);
             if (response.ok) {
-                console.log("Registration request successful");
-                return "Success";
+                const user = await response.json();
+                showToast('Registration successful', 'Login with your new account', 'success')
+                return {message: "Sign up successful", success: true, user:user}
             } else {
-                console.error("Registration request failed with status:", response.status);
-                return "Failed"; // Return a failure message
+                const data = await response.json()
+                showToast('Registration failed', data.message, 'error')
+                return {message: "Sign up failed", success: false}
+
             }
         } catch (error) {
             console.error("Fetch error in registration:", error);
-            return "Error"; // Return an error message
+            showToast('Registration failed', error, 'error')
+            return {message: "Sign up failed", success: false}
+
         }
     };
     const getUser = () => {
@@ -111,7 +139,7 @@ const LoginProvider = ({ children }) => {
 
 
     return (
-        <LoginContext.Provider value={{ logIn, logOut, signUp, getUser }}>
+        <LoginContext.Provider value={{ logIn, logOut, signUp, getUser, user }}>
             {children}
         </LoginContext.Provider>
     );
@@ -120,3 +148,4 @@ const LoginProvider = ({ children }) => {
 const useLogin = () => useContext(LoginContext);
 
 export { LoginProvider, useLogin };
+export {LoginContext}

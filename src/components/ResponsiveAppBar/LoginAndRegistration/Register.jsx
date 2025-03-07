@@ -10,66 +10,69 @@ import { useLogin } from "../../../context/LoginProvider.jsx";
 * and validation for inputs like email and password.
 */
 
-// State initialization for user data, profile image, preview source, and validation flags
-
 const Register = ({ onRegister }) => {
-  const { signUp } = useLogin()
+  const { signUp } = useLogin();
 
   const [emailOK, setEmailOK] = useState(true);
   const [awaitingResult, setAwaitingResult] = useState(false);
+  const [file, setFile] = useState('');
 
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
     email: "",
     password: "",
-    pic: "./test2"
+    pic: null
   });
   const [previewSrc, setPreviewSrc] = useState(null);
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //set awaiting result true to disable the registeration button
     setAwaitingResult(true);
-    signUp(formData).then(
-      result => {
-        if (result === "Success") {
-          console.log("User added.");
-          //Switch to the login page
-          onRegister(true)
-        }
-        else if (result === "Fail") {
-          console.log("User not added.");
-        }
-        else {
-          console.log("No result from signUp");
-        }
-        setAwaitingResult(false);
-      }
-    )
+    const response =  await signUp(formData)
+    if (response.success && file) {
+      const user = response.user;
+      const formData = new FormData();
+      formData.append('file',file);
+      formData.append("id", user._id)
+      await sendImage(formData);
+    }
+    setAwaitingResult(false);
+  };
+
+  const sendImage = async (formData) => {
+    try {
+
+      const response = await fetch(`/api/users/pic`, {
+        method: 'POST',
+        body: formData,
+        credentials: "include",
+        mode: "cors",
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
   }
 
   const handleImageChange = (file) => {
-    setFormData({
-      ...formData,
-      pic: file,
-    });
+    setFile(file);
 
-    //Generate preview URL
     const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewSrc(reader.result);
-    }
     reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      const base64pic = reader.result;
+      setPreviewSrc(base64pic);
+    };
   };
 
   return (
@@ -77,35 +80,40 @@ const Register = ({ onRegister }) => {
       <Typography variant="h6" color={"textPrimary"}>
         Register
       </Typography>
-      <form onSubmit={handleSubmit} onChange={handleChange}>
+      <form onSubmit={handleSubmit}>
         <Stack direction={"column"} spacing={2}>
           <Stack direction={"row"} justifyContent={"center"}>
-            {previewSrc && <Avatar
-              variant={"round"}
-              src={previewSrc}
-              sx={{ width: 100, height: 100 }}
-              alt="Profile Preview" />}
+            {previewSrc && (
+              <Avatar
+                variant={"round"}
+                src={previewSrc}
+                sx={{ width: 100, height: 100 }}
+                alt="Profile Preview"
+              />
+            )}
           </Stack>
           <TextField
             data-testid="firstname-field"
             label="First Name"
             variant="outlined"
             fullWidth
-            type="name"
+            type="text"
             name="first_name"
+            value={formData.first_name}
+            onChange={handleChange}
             required
-
           />
           <TextField
             data-testid="lastname-field"
             label="Last Name"
             variant="outlined"
             fullWidth
-            type="name"
+            type="text"
             name="last_name"
+            value={formData.last_name}
+            onChange={handleChange}
             required
           />
-
           <TextField
             id="email"
             data-testid="register-email-field"
@@ -114,6 +122,8 @@ const Register = ({ onRegister }) => {
             fullWidth
             type="email"
             name="email"
+            value={formData.email}
+            onChange={handleChange}
             helperText={emailOK ? "" : "Email taken or incorrect"}
             error={!emailOK}
             required
@@ -126,13 +136,12 @@ const Register = ({ onRegister }) => {
             fullWidth
             type="password"
             name="password"
+            value={formData.password}
+            onChange={handleChange}
             required
           />
-          <UploadButton
-            handleImageChange={handleImageChange} >
-          </UploadButton>
+          <UploadButton handleImageChange={handleImageChange} />
           <Button
-            loading={awaitingResult}
             sx={{ borderRadius: "25px" }}
             data-testid="create-user-button"
             variant="outlined"
@@ -140,8 +149,9 @@ const Register = ({ onRegister }) => {
             type="submit"
             fullWidth
             startIcon={<HowToReg />}
+            disabled={awaitingResult}
           >
-            Register
+            {awaitingResult ? "Registering..." : "Register"}
           </Button>
         </Stack>
       </form>

@@ -10,11 +10,12 @@ import dotenv from 'dotenv';
 import * as process from "process";
 
 const app = express();
+module.exports = app;
 dotenv.config();
 const PORT = process.env.PORT || 8080;
 
 app.use(cors({
-    origin: 'http://localhost:5173', //Change in production
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
     credentials: true,
 }));
 

@@ -19,7 +19,6 @@ export const addLeaderboardScore = async (req: Request, res: Response) => {
       // Check if it's a new high score globally
       const leaderboard = await getLeaderboard();
       const topScore = leaderboard.length > 0 ? Math.max(...leaderboard.map(row => row.score)) : 0;
-      console.log("Score: ", score, "Top: ", topScore)
       if (score > topScore) {
           isNewHighScore = true;
       }

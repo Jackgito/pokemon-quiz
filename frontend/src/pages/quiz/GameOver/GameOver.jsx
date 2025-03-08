@@ -83,7 +83,8 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName, correctGu
     };
 
     try {
-      const response = await fetch("/api/leaderboard/add", options);
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
+      const response = await fetch(`${backendUrl}/api/leaderboard/add", options`);
       const result = await response.json();
       return result;
     } catch (err) {

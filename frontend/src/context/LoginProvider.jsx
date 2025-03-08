@@ -7,13 +7,15 @@ const LoginProvider = ({ children }) => {
     const [user, setUser] = useState();
     const { showToast } = useContext(ToastContext);
 
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
+
     useEffect(() => {
         fetchUser();
     }, []);
 
     const fetchUser = async () => {
       try {
-          const response = await fetch('/api/user');
+          const response = await fetch(`${backendUrl}/api/user`);
           const data = await response.json();
           
           if (data.status === 'unauthenticated') {
@@ -53,7 +55,7 @@ const LoginProvider = ({ children }) => {
         }
 
         try {
-            const response = await fetch("/api/auth/logout");
+            const response = await fetch(`${backendUrl}/api/auth/logout`);
             if (response.ok) {
                 showToast('You logged out', `User ${user.username} logged out`, 'success');
             }
@@ -81,7 +83,8 @@ const LoginProvider = ({ children }) => {
         };
 
         try {
-            const response = await fetch("/api/auth/login", options);
+            const response = await fetch(`${backendUrl}/api/auth/login`, options);
+
             if (response.ok) {
                 const data = await response.json();
                 showToast('Login successful', 'Welcome ' + username + '!', 'success');
@@ -107,7 +110,7 @@ const LoginProvider = ({ children }) => {
         };
 
         try {
-            const response = await fetch("/api/auth/register", options);
+            const response = await fetch(`${backendUrl}/api/auth/register`, options);
             if (response.ok) {
                 const user = await response.json();
                 showToast('Registration successful', 'Login with your new account', 'success');

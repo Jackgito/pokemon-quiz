@@ -8,7 +8,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 export default ( router: Router ) => {
-    router.get('/users', isAuthenticated, getAllUsers);
-    router.delete('/users/:id', isAuthenticated, isOwner, deleteUser);
-    router.get('/user', isAuthenticated, getUserData);
+    router.get('/api/users', isAuthenticated, getAllUsers);
+    router.delete('/api/users/:id', isAuthenticated, isOwner, deleteUser);
+    router.get('/api/user', isAuthenticated, getUserData);
 }

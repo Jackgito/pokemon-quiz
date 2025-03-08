@@ -4,7 +4,7 @@ import {isAuthenticated} from "../middlewares";
 import {addLeaderboardScore, getAllLeaderboardRows, getHighScore} from "../controllers/leaderboard";
 
 export default (router: Router) => {
-    router.post("/leaderboard/add", isAuthenticated, addLeaderboardScore);
-    router.get("/leaderboard", getAllLeaderboardRows);
-    router.get("/leaderboard/highscore", isAuthenticated, getHighScore);
+    router.post("/api/leaderboard/add", isAuthenticated, addLeaderboardScore);
+    router.get("/api/leaderboard", getAllLeaderboardRows);
+    router.get("/api/leaderboard/highscore", isAuthenticated, getHighScore);
 }

@@ -6,13 +6,15 @@ const useFetchLeaderboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
+
   const fetchLeaderboard = useCallback(async () => {
   
     setLoading(true);
     setError(null);
   
     try {
-      const response = await fetch('/api/leaderboard/'); // Replace with real API endpoint
+      const response = await fetch(`${backendUrl}/api/leaderboard/`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

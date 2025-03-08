@@ -1,6 +1,7 @@
 export const getHighscore = async () => {
 	try {
-		const response = await fetch("/api/leaderboard/highscore");
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
+		const response = await fetch(`${backendUrl}/api/leaderboard/highscore`);
 		if (response.ok) {
 			const data = await response.json();
 			return data.highscore;

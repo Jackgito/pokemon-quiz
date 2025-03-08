@@ -56,7 +56,7 @@ const UserMenu = ({user}) => {
 			</MenuItem>
 			<MenuItem onClick={logOut}>
 				<LogoutIcon fontSize="small" sx={{mr: 1}}/>
-				Sign out
+				Log out
 			</MenuItem>
 		</Stack>
 	);

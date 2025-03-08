@@ -15,7 +15,10 @@ const LoginProvider = ({ children }) => {
 
     const fetchUser = async () => {
       try {
-          const response = await fetch(`${backendUrl}/api/user`);
+          const response = await fetch(`${backendUrl}/api/user`, {
+            credentials: 'include'
+          });
+          
           const data = await response.json();
           
           if (data.status === 'unauthenticated') {
@@ -57,7 +60,7 @@ const LoginProvider = ({ children }) => {
         try {
             const response = await fetch(`${backendUrl}/api/auth/logout`);
             if (response.ok) {
-                showToast('You logged out', `User ${user.username} logged out`, 'success');
+                showToast('Log out succesfull', `User ${user.username} logged out`, 'success');
             }
         } catch (err) {
             console.log(err);

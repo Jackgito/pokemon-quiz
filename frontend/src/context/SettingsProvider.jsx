@@ -3,12 +3,15 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const SettingsContext = createContext();
 
 const SettingsProvider = ({ children }) => {
+
   const [difficulty, setDifficulty] = useState(() => {
     return localStorage.getItem('difficulty') || 'Normal'; // Easy, Normal, Hard
   });
+
   const [quizType, setQuizType] = useState(() => {
     return localStorage.getItem('quizType') || 'Retro'; // Retro, Modern, Sound
   });
+
   const [generations, setGenerations] = useState(() => {
     const storedGenerations = localStorage.getItem('generations');
     return storedGenerations ? JSON.parse(storedGenerations) : [
@@ -23,6 +26,10 @@ const SettingsProvider = ({ children }) => {
       { name: "Gen. IX", value: 9, selected: false },
     ];
   });
+
+  const [sfxVolume, setSfxVolume] = useState(() => {
+    return localStorage.getItem('sfxVolume') || 0; // 0 - 100
+  })
 
   useEffect(() => {
     localStorage.setItem('difficulty', difficulty);
@@ -48,9 +55,13 @@ const SettingsProvider = ({ children }) => {
     setDifficulty(newDifficulty);
   };
 
+  const changeSfxVolume = (newVolume) => {
+    setSfxVolume(newVolume);
+  }
+
   return (
     <SettingsContext.Provider 
-      value={{ difficulty, changeDifficulty, generations, changeGenerations, getSelectedGenerations, quizType, setQuizType }}>
+      value={{ difficulty, changeDifficulty, generations, changeGenerations, getSelectedGenerations, quizType, setQuizType, changeSfxVolume }}>
       {children}
     </SettingsContext.Provider>
   );

@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { Button } from "@mui/material";
 import { useTheme } from "@mui/material";
+import useSound from "../../../hooks/useSound";
 import "./StartButton.css";
 
 const StartButton = ({ onGameStart }) => {
   const theme = useTheme();
   const [wasClicked, setWasClicked] = useState(false);
+  const playSound = useSound();
 
   const handleClick = () => {
     setWasClicked(true);
+    playSound("start")
 
     // Move the divs
     const divs = document.querySelectorAll(".middle-div, .top-div, .bottom-div");

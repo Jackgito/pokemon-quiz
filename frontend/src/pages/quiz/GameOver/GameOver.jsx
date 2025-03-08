@@ -5,6 +5,7 @@ import { ToastContext } from '../../../context/ToastProvider';
 import { useLogin} from "../../../context/LoginProvider.jsx";
 import { useSettings } from "../../../context/SettingsProvider.jsx";
 import {getHighscore} from "../utils/highscore.js";
+import useSound from '../../../hooks/useSound.jsx';
 
 const GameOver = ({ score, restartGame, gameEnded, correctPokemonName, correctGuesses }) => {
   const [showConfetti, setShowConfetti] = useState(false);
@@ -14,6 +15,8 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName, correctGu
   const { getUser } = useLogin();
   const { getSelectedGenerations } = useSettings();
 
+  const playSound = useSound();
+
   useEffect(() => {
     ending();
   }, [gameEnded, score, effectTriggered, correctPokemonName, showToast]);
@@ -21,6 +24,7 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName, correctGu
   const ending = async () => {
     if (gameEnded && !effectTriggered) {
       showToast('Game over!', `The correct Pokémon was ${correctPokemonName}!`, 'error');
+      playSound("wrongAnswer")
 
       const highScore = await getHighscore();
       if (highScore === null) {
@@ -32,11 +36,13 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName, correctGu
 
       if (scoreResult.isNewHighScore) {
         setTimeout(() => {
+          playSound("highscore")
           showToast('New high score!', `The correct Pokémon was ${correctPokemonName}!`, 'success');
           setShowConfetti(true);
         }, 2500);
       } else if (scoreResult.isNewPersonalBest) {
         setTimeout(() => {
+          playSound("personalBest")
           showToast('New personal best!', `The correct Pokémon was ${correctPokemonName}!`, 'success');
         }, 2500);
       }

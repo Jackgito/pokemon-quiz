@@ -46,7 +46,7 @@ const MultipleChoiceAnswers = ({ choices, isDisabled, handleAnswer }) => {
             ${selectedAnswer === choice.answer && !choice.correctAnswer ? 'incorrect' : ''}
           `}
           onClick={() => handleAnswerSelection(choice)}
-          style={{ cursor: isDisabled ? 'not-allowed' : 'pointer' }}
+          style={{ cursor: isDisabled ? 'default' : 'pointer' }}
         >
           {choice.answer}
         </div>

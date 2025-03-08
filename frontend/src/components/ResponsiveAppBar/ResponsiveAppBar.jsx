@@ -11,7 +11,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Stack, Tooltip } from "@mui/material";
-import GenerationsSwitch from "./SettingsMenu/GenerationSelector.jsx";
+import GenerationsSelector from "./SettingsMenu/GenerationSelector.jsx";
 import QuestionIcon from "../../themes/custom_icons/QuestionIcon.jsx";
 import { Close } from "@mui/icons-material";
 import DifficultySwitch from "./SettingsMenu/DifficultySwitch.jsx";
@@ -22,6 +22,7 @@ import { useLogin } from "../../context/LoginProvider.jsx";
 import "./ResponsiveAppBar.css"
 import UserIcon from "./userMenu/UserIcon.jsx";
 import useScreenSize from '../../hooks/useScreenSize.jsx';
+import SoundSlider from './SettingsMenu/SoundSlider.jsx';
 
 function ResponsiveAppBar({ gameStarted }) {
   const { user } = useLogin();
@@ -65,8 +66,9 @@ function ResponsiveAppBar({ gameStarted }) {
       <Divider />
       <Stack direction={"column"} divider={<Divider orientation="horizontal" flexItem />}>
         <DifficultySwitch />
-        <GenerationsSwitch />
+        <GenerationsSelector />
         <QuizTypeSwitch />
+        <SoundSlider />
       </Stack>
     </Box>
   );

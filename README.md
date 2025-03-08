@@ -13,7 +13,6 @@ Who's That Pokémon is an interactive quiz game that challenges players to ident
 - Follows best SEO, accessibility, responsivity and performance practices.
 ![image](https://github.com/user-attachments/assets/d9efdd37-6be1-4464-990f-c257e9ea04b2)
 
-
 ## Pictures
 
 <p align="center">
@@ -71,12 +70,12 @@ Who's That Pokémon is an interactive quiz game that challenges players to ident
 - Some animatated sprites provided by PokeApi are not animated (like Ferroseed)
 - Restarting game has a chance to mark correct answer by green if it is the same Pokemon as in previous question
 - App doesn't support new Pokemon generations automatically
-
+- Answering all Pokemon correct shows "failed" toast.
+- Number of guesses is not displayed correctly for everyone
 
 ## Credits
 Fonts: 
 - https://www.1001fonts.com/orbitron-font.html
-
 
 ## License
 This project is licensed under the [MIT License](LICENSE).

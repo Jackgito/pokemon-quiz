@@ -7,6 +7,7 @@ import generateQuestionChoices from './utils/generateQuestionChoices';
 import GameOver from './GameOver/GameOver';
 import ScoreDisplay from './ScoreDisplay/ScoreDisplay';
 import CircularProgress from '@mui/material/CircularProgress';
+import useSound from '../../hooks/useSound.jsx';
 
 import './QuizPage.css';
 
@@ -19,6 +20,8 @@ const QuizPage = ({ onGameEnd, onGameRestart }) => {
   const [key, setKey] = useState(0); // Used to restart the timer
   const [choices, setChoices] = useState([]);
   const [gameEnded, setGameEnded] = useState(false);
+
+  const playSound = useSound();
 
   const { pokemonData, loading, error, fetchPokemonData } = useFetchPokemonData();
   const { difficulty } = useSettings();
@@ -72,6 +75,7 @@ const QuizPage = ({ onGameEnd, onGameRestart }) => {
   const checkAnswer = (choice) => {
     setIsSilhouette(false);
     if (choice?.correctAnswer) {
+      playSound("start")
       setScore((prevScore) => prevScore + scoreMultiplier());
       setCorrectGuesses((prevQuesses) => prevQuesses + 1)
 
@@ -114,7 +118,7 @@ const QuizPage = ({ onGameEnd, onGameRestart }) => {
       {!loading && !error && choices && (
         <>
           <PokemonCountdown
-            duration={difficulty === 'Hard' ? 10 : 15}
+            duration={difficulty === 'Easy' ? 15 : 10}
             strokeWidth={10}
             onComplete={checkAnswer}
             pause={!isSilhouette}

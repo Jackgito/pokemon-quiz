@@ -3,7 +3,7 @@ export const getHighscore = async () => {
 		const response = await fetch("/api/leaderboard/highscore");
 		if (response.ok) {
 			const data = await response.json();
-			return data.highscrore;
+			return data.highscore;
 		} else {
 			return null;
 		}

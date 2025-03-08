@@ -23,18 +23,32 @@ import "./ResponsiveAppBar.css"
 import UserIcon from "./userMenu/UserIcon.jsx";
 import useScreenSize from '../../hooks/useScreenSize.jsx';
 
-function ResponsiveAppBar() {
-
-  const { user } = useLogin()
+function ResponsiveAppBar({ gameStarted }) {
+  const { user } = useLogin();
   const { isMobile } = useScreenSize();
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
   const handleDrawerToggle = () => {
-    setMobileOpen((prevState) => !prevState);
+    if (!gameStarted) {
+      setMobileOpen((prevState) => !prevState);
+    } else {
+      alert("You can't open settings while the game is in progress.");
+    }
+  };
+
+  const handleLeaderboardClick = (event) => {
+    if (gameStarted) {
+      event.preventDefault();
+      const confirmNavigation = window.confirm("Game in progress. Scores won't be saved. Are you sure you want to open leaderboards?");
+      if (confirmNavigation) {
+        window.location.href = "/leaderboard";
+      }
+    }
   };
 
   const drawer = (
-    <Box /*onClick={handleDrawerToggle}*/ sx={{ textAlign: 'left', paddingX: "10px" }}>
+    <Box sx={{ textAlign: 'left', paddingX: "10px" }}>
       <Stack
         direction={"row"}
         sx={{
@@ -57,7 +71,6 @@ function ResponsiveAppBar() {
     </Box>
   );
 
-
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -71,6 +84,7 @@ function ResponsiveAppBar() {
             edge="start"
             onClick={handleDrawerToggle}
             className="shake"
+            disabled={gameStarted} // Disable the button when the game is running
           >
             <MenuIcon />
           </IconButton>
@@ -96,20 +110,21 @@ function ResponsiveAppBar() {
               href="/leaderboard"
               sx={{ marginLeft: "4px" }}
               className="shake"
+              onClick={handleLeaderboardClick}
             >
               <EmojiEventsIcon />
             </IconButton>
           </Tooltip>
 
-            <Box sx={{
-              flexGrow: 1,
-              display: 'flex',
-              justifyContent: 'center', // Horizontal alignment
-            }}>
-              {!isMobile && (
+          <Box sx={{
+            flexGrow: 1,
+            display: 'flex',
+            justifyContent: 'center',
+          }}>
+            {!isMobile && (
               <QuestionIcon sx={{ fontSize: 80, marginRight: 3 }} />
-              )}
-            </Box>
+            )}
+          </Box>
 
           {/* GitHub */}
           <Tooltip title="View on GitHub">
@@ -124,7 +139,7 @@ function ResponsiveAppBar() {
               <GitHubIcon />
             </IconButton>
           </Tooltip>
-          {user ?  <UserIcon user={user}/> : <LoginAndRegisterIcon/>}
+          {user ? <UserIcon user={user} /> : <LoginAndRegisterIcon />}
         </Toolbar>
       </AppBar>
       <nav>

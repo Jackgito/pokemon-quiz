@@ -1,26 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TextField, Button, Typography, Stack } from '@mui/material';
 import { useLogin } from "../../../context/LoginProvider.jsx";
 
-/*
-* The Register component is responsible for handling the registration of new users.
-* It incorporates form inputs for user details, an image upload button for profile pictures,
-* and validation for inputs like email and password.
-*/
-
 const Register = ({ onRegister }) => {
-  const { signUp } = useLogin();
+  const { register } = useLogin();
 
   const [awaitingResult, setAwaitingResult] = useState(false);
-
-  // Updated formData to just include username, password, and password confirmation
   const [formData, setFormData] = useState({
     username: "",
     password: "",
     passwordConfirmation: "",
   });
 
-  const [passwordsMatch, setPasswordsMatch] = useState(true); // Track if passwords match
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [usernameTooLong, setUsernameTooLong] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,36 +22,36 @@ const Register = ({ onRegister }) => {
       [name]: value,
     }));
 
-    // Check if password and password confirmation match
-    if (name === "password" || name === "passwordConfirmation") {
-      setPasswordsMatch(formData.password === formData.passwordConfirmation);
+    if (name === "username") {
+      setUsernameTooLong(value.length > 18);
     }
   };
+
+  useEffect(() => {
+    setPasswordsMatch(formData.password === formData.passwordConfirmation);
+  }, [formData.password, formData.passwordConfirmation]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Don't submit if passwords don't match
-    if (!passwordsMatch) return;
+    if (!passwordsMatch || usernameTooLong) return;
 
     setAwaitingResult(true);
-    const response = await signUp(formData);
-
+    const response = await register(formData);
     setAwaitingResult(false);
 
     if (response.success) {
-      // Handle successful registration (if needed)
-      onRegister && onRegister(); // Optionally notify parent component
+      onRegister && onRegister();
     }
   };
 
   return (
     <>
-      <Typography variant="h6" color={"textPrimary"}>
+      <Typography variant="h6" color="textPrimary">
         Register
       </Typography>
       <form onSubmit={handleSubmit}>
-        <Stack direction={"column"} spacing={2}>
+        <Stack direction="column" spacing={2}>
           <TextField
             label="Username"
             variant="outlined"
@@ -67,7 +60,10 @@ const Register = ({ onRegister }) => {
             name="username"
             value={formData.username}
             onChange={handleChange}
+            error={usernameTooLong}
+            helperText={usernameTooLong ? "Username must be 18 characters or less" : ""}
             required
+            autoComplete="username"
           />
           <TextField
             label="Password"
@@ -78,6 +74,7 @@ const Register = ({ onRegister }) => {
             value={formData.password}
             onChange={handleChange}
             required
+            autoComplete="new-password"
           />
           <TextField
             label="Confirm Password"
@@ -90,6 +87,7 @@ const Register = ({ onRegister }) => {
             error={!passwordsMatch}
             helperText={!passwordsMatch ? "Passwords don't match" : ""}
             required
+            autoComplete="new-password"
           />
           <Button
             sx={{ borderRadius: "25px" }}
@@ -97,7 +95,7 @@ const Register = ({ onRegister }) => {
             color="action"
             type="submit"
             fullWidth
-            disabled={awaitingResult || !passwordsMatch} // Disable if awaiting result or passwords don't match
+            disabled={awaitingResult || !passwordsMatch || usernameTooLong}
           >
             {awaitingResult ? "Registering..." : "Register"}
           </Button>

@@ -15,7 +15,7 @@ const QuizTypeSwitch = () => {
     <Stack direction={"column"} spacing={1} padding={2}>
       <Typography variant={"Body"} color="textSecondary">
         Quiz Type
-        <InfoButton text={"Retro: 2D pixel images\nModern: 3D animations\nSound: Pokemon cries"} />
+        <InfoButton text={"Retro: 2D pixel images\nModern: 3D animations\nSound: Pokemon cries. +1 point after score multipliers"} />
       </Typography>
       <ToggleButtonGroup
         value={quizType}

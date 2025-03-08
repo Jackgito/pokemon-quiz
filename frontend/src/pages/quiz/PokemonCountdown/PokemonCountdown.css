@@ -37,6 +37,7 @@
   height: 100%;
   transition: filter 0.5s ease;
   object-fit: contain;
+  image-rendering: pixelated;
 }
 
 .silhouette {

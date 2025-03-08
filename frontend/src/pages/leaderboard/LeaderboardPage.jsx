@@ -9,9 +9,6 @@ import {
 import ResponsiveAppBar from '../../components/ResponsiveAppBar/ResponsiveAppBar.jsx';
 import ShinyText from './ShinyText.jsx';
 import useScreenSize from '../../hooks/useScreenSize.jsx';
-import {useLogin} from "../../context/LoginProvider.jsx";
-
-
 
 // Renders chips for generations
 const formatGenerations = (generations) => (
@@ -44,12 +41,12 @@ const LeaderboardRow = ({ player, index, page, detailedView }) => {
       <TableCell 
         style={{ 
           color: 'white', 
-          maxWidth: '150px', // Adjust width as needed
+          maxWidth: '150px',
           whiteSpace: 'nowrap', 
           overflow: 'hidden', 
           textOverflow: 'ellipsis'
         }} 
-        title={player.username} // Tooltip to show full username on hover
+        title={player.username}
       >
         {renderText(player.username)}
       </TableCell>
@@ -89,7 +86,6 @@ const rowsPerPage = 100;
 const Leaderboard = () => {
   const { leaderboardData, loading, error, fetchLeaderboard } = useFetchLeaderboard();
   const { isMobile } = useScreenSize();
-  const { user } = useLogin();
 
   const [page, setPage] = useState(0);
   const [detailedView, setDetailedView] = useState(!isMobile);
@@ -100,7 +96,7 @@ const Leaderboard = () => {
     if (!leaderboardData || leaderboardData.length === 0) {
       fetchLeaderboard();
     }
-  }, [leaderboardData, fetchLeaderboard]);
+  }, []);
 
   const sortedData = leaderboardData.sort((a, b) => b.score - a.score);
 
@@ -142,13 +138,26 @@ const Leaderboard = () => {
           >
             <Table size={isMobile ? "small" : ""}>
               <LeaderboardHeader detailedView={detailedView} />
-              { leaderboardData && leaderboardData.length === 0 && <div style={{margin: 10, color: 'white'}}>No data found</div> }
               <TableBody>
-                {sortedData
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((player, index) => (
-                    <LeaderboardRow key={index} player={player} index={index} page={page} detailedView={detailedView} />
-                  ))}
+                {leaderboardData.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={detailedView ? 7 : 3} style={{color: 'white', textAlign: 'center'}}>
+                      No data found
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  sortedData
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((player, index) => (
+                      <LeaderboardRow 
+                        key={index} 
+                        player={player} 
+                        index={index} 
+                        page={page} 
+                        detailedView={detailedView} 
+                      />
+                    ))
+                )}
               </TableBody>
 
               {/* Pagination. Show only if more than 100 rows */}

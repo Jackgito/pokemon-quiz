@@ -10,7 +10,7 @@ const DifficultySwitch = () => {
         <Stack direction={"column"} spacing={1} padding={2}>
             <Typography variant={"Body"} color={"textSecondary"}>
                 Difficulty
-                <InfoButton text={"Easy: 3 choices & extra time\nNormal: 4 choices\nHard: Type the answer"} />
+                <InfoButton text={"Easy: 3 choices & extra time\nNormal: 4 choices. 2x score\nHard: Type the answer. 3x score"} />
             </Typography>
             <ToggleButtonGroup
               color="primary"

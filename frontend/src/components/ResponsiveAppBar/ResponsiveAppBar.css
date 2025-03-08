@@ -8,6 +8,7 @@
 
 .shake:hover {
   animation: shake 0.5s ease-in-out;
+  cursor: pointer;
 }
 
 .MuiAvatar-circular {

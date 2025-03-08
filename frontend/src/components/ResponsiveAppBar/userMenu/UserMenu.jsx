@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {stringAvatar} from "./utils.js";
-import {Avatar, Menu, MenuItem, Stack} from "@mui/material";
+import {useEffect, useState} from 'react';
+import {MenuItem, Stack, Avatar} from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -8,7 +7,6 @@ import StarIcon from '@mui/icons-material/Star';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useLogin} from "../../../context/LoginProvider.jsx";
 import {getHighscore} from "../../../pages/quiz/utils/highscore.js";
-
 
 const UserMenu = ({user}) => {
 
@@ -32,19 +30,18 @@ const UserMenu = ({user}) => {
 		<Stack>
 			<MenuItem sx={{cursor: 'default'}}>
 				<Box display="flex" alignItems="center">
-					<Avatar
-						{...stringAvatar(user.first_name + " " + user.last_name)}
-						src={user.pic}
-						sx={{width: 40, height: 40, mr: 2}}
-					/>
+          <Avatar sx={{width: 40, height: 40, mr: 2}}>
+            {user?.username?.[0]?.toUpperCase()}
+          </Avatar>
+
 					<Box>
 						<Box display="flex" alignItems="center">
 							<Typography variant="subtitle1" sx={{fontWeight: 'bold'}}>
-								{user.first_name + " " + user.last_name}
+								{user.username}
 							</Typography>
 						</Box>
 						<Typography variant="body2" color="text.secondary">
-							{user.email}
+							{user.username}
 						</Typography>
 					</Box>
 				</Box>

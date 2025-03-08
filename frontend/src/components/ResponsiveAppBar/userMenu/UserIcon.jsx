@@ -1,29 +1,24 @@
-import React, {useState} from 'react';
-import {Avatar, Box, IconButton, Menu, Tooltip} from "@mui/material";
-import {stringAvatar} from "./utils.js";
+import {useState} from 'react';
+import {Avatar, Box, Menu} from "@mui/material";
 import UserMenu from "./UserMenu.jsx";
 
 const UserIcon = ({user}) => {
 	const [anchorElUser, setAnchorElUser] = useState(null);
 
-
-	const handleOpenSignUpMenu = (event) => {
+	const handleOpenRegisterMenu = (event) => {
 		setAnchorElUser(event.currentTarget);
 	};
 
-	const handleCloseSignUpMenu = () => {
+	const handleCloseRegisterMenu = () => {
 		setAnchorElUser(null);
 	};
 
-
-
 	return (
 		<Box sx={{ flexGrow: 0, marginLeft: '4px' }}>
-			<Tooltip title="Sign up or Log in to save best score to leaderboard">
-				<Avatar {...stringAvatar(user.first_name + " " + user.last_name)} src={user.pic} onClick = {handleOpenSignUpMenu} className="shake">
+      <Avatar onClick={handleOpenRegisterMenu} className="shake">
+        {user?.username?.[0]?.toUpperCase()}
+      </Avatar>
 
-				</Avatar>
-			</Tooltip>
 			<Menu
 				sx={{ mt: '45px', maxWidth: '100vw' }}
 
@@ -46,7 +41,7 @@ const UserIcon = ({user}) => {
 					horizontal: 'right',
 				}}
 				open={Boolean(anchorElUser)}
-				onClose={handleCloseSignUpMenu}
+				onClose={handleCloseRegisterMenu}
 			>
 				<UserMenu user={user}/>
 			</Menu>

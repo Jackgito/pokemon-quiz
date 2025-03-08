@@ -8,17 +8,19 @@ import './HomePage.css';
 
 const HomePage = () => {
   const [gameStarted, setGameStarted] = useState(false);
+  const [gameStartedFirstTime, setGameStartedFirstTime] = useState(false);
 
   const theme = useTheme();
 
   const handleGameStart = () => {
     setGameStarted(true);
+    setGameStartedFirstTime(true);
   };
 
   return (
     <>
-      <ResponsiveAppBar />
-      {/* Do no not change div class names. They are used in StartButton as well */}
+      <ResponsiveAppBar gameStarted={gameStarted} />
+      
       <div className="top-div" style={{ '--theme-palette-primary-main': theme.palette.primary.main }}>
         <h1 className="title">Who&apos;s That Pokémon?</h1>
         <p>Put your Pokémon knowledge to the ultimate test. Prove that you are the very best like no one ever was!</p>
@@ -34,11 +36,12 @@ const HomePage = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
-        >
-        </div>
+        ></div>
 
-        {gameStarted ? (<QuizPage />) : (
-          <StartButton onGameStart={handleGameStart}/>
+        {gameStartedFirstTime ? (
+          <QuizPage onGameEnd={() => setGameStarted(false)} onGameRestart={() => setGameStarted(true)} />
+        ) : (
+          <StartButton onGameStart={handleGameStart} />
         )}
 
         <div
@@ -50,8 +53,7 @@ const HomePage = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
-        >
-        </div>
+        ></div>
       </div>
 
       <div className="bottom-div" style={{ '--theme-palette-secondary-main': theme.palette.secondary.main }}></div>

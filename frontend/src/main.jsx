@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { SettingsProvider } from './context/SettingsProvider.jsx'
 import { LoginProvider } from "./context/LoginProvider.jsx";
 import { ToastProvider } from "./context/ToastProvider";
+
 import './main.css'
 
 import HomePage from './pages/home/HomePage.jsx'

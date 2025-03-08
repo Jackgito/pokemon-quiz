@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {deleteUser, getAllUsers, getUserData, uploadPic} from "../controllers/users";
+import {deleteUser, getAllUsers, getUserData} from "../controllers/users";
 import {isAuthenticated, isOwner} from "../middlewares";
 import multer from "multer";
 
@@ -11,5 +11,4 @@ export default ( router: Router ) => {
     router.get('/users', isAuthenticated, getAllUsers);
     router.delete('/users/:id', isAuthenticated, isOwner, deleteUser);
     router.get('/user', isAuthenticated, getUserData);
-    router.post('/users/pic',upload.single('file'), uploadPic);
 }

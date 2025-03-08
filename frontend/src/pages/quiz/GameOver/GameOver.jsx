@@ -6,38 +6,39 @@ import { useLogin} from "../../../context/LoginProvider.jsx";
 import { useSettings } from "../../../context/SettingsProvider.jsx";
 import {getHighscore} from "../utils/highscore.js";
 
-
-const GameOver = ({ score, restartGame, gameEnded, correctPokemonName }) => {
+const GameOver = ({ score, restartGame, gameEnded, correctPokemonName, correctGuesses }) => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [effectTriggered, setEffectTriggered] = useState(false);
   const { showToast } = useContext(ToastContext);
+  console.log(correctGuesses)
 
   const { getUser } = useLogin();
   const { getSelectedGenerations } = useSettings();
 
-  useEffect( () => {
+  useEffect(() => {
     ending();
   }, [gameEnded, score, effectTriggered, correctPokemonName, showToast]);
 
-  const ending  = async () => {
+  const ending = async () => {
     if (gameEnded && !effectTriggered) {
       showToast('Game over!', `The correct Pokémon was ${correctPokemonName}!`, 'error');
 
-
       const highScore = await getHighscore();
-      //console.log("highScore " + highScore)
       if (highScore === null) {
         setEffectTriggered(true);
         return;
       }
 
-      const difficultyMultiplier = difficultyToNumber(localStorage.getItem('difficulty'));
-      if (score*difficultyMultiplier > highScore) {
-        //localStorage.setItem('highScore', score);
+      const scoreResult = await sendScore(score, correctGuesses);
+
+      if (scoreResult.isNewHighScore) {
         setTimeout(() => {
           showToast('New high score!', `The correct Pokémon was ${correctPokemonName}!`, 'success');
           setShowConfetti(true);
-          sendScore(score);
+        }, 2500);
+      } else if (scoreResult.isNewPersonalBest) {
+        setTimeout(() => {
+          showToast('New personal best!', `The correct Pokémon was ${correctPokemonName}!`, 'success');
         }, 2500);
       }
 
@@ -45,34 +46,23 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName }) => {
     }
   }
 
-
-
   const handleRestart = () => {
     setShowConfetti(false);
     setEffectTriggered(false);
     restartGame();
   };
 
-  function difficultyToNumber(level) {
-    const mapping = {
-      easy: 1,
-      normal: 2,
-      hard: 3
-    };
-    return mapping[level.toLowerCase()] || 0;
-  }
-
-  const sendScore = async (correctGuesses) => {
+  const sendScore = async (score, correctGuesses) => {
     const user = getUser();
     if (!user) {
-      console.log("No user logged in, cannot send request")
-      return;
+      // No user logged in, cannot send request
+      return { isNewPersonalBest: false, isNewHighScore: false };
     }
 
     const difficulty = localStorage.getItem('difficulty')
     const gamemode = localStorage.getItem('quizType')
     let generations = getSelectedGenerations();
-    const score = difficultyToNumber(difficulty)*correctGuesses;
+
     //Stringify the generations for db
     generations = generations.toString();
 
@@ -83,7 +73,7 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName }) => {
         'Content-Type': 'application/json;charset=utf-8',
       },
       body: JSON.stringify({
-        username: user.email,
+        username: user.username,
         correctGuesses,
         difficulty,
         gamemode,
@@ -94,22 +84,16 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName }) => {
 
     try {
       const response = await fetch("/api/leaderboard/add", options);
-      if (response.ok) {
-        const data = await response.json()
-        console.log(data);
-      } else {
-        console.log("Issue in adding to leaderboard")
-      }
-
+      const result = await response.json();
+      return result;
     } catch (err) {
       console.log(err)
-      return;
+      return { isNewPersonalBest: false, isNewHighScore: false };
     }
   };
 
   return (
     <div className="game-over">
-      {/* Confetti appears only for high score */}
       {showConfetti && <ConfettiGenerator />}
 
       <Button 

@@ -24,10 +24,11 @@ export const isAuthenticated = async (req: Request, res: Response, next: NextFun
         const sessionToken = req.cookies['POKEMON-AUTH'];
 
         if (!sessionToken) {
-            res.sendStatus(403);
-            return;
+          // 200 status to hide unnecessary errors if user hasn't logged in yet
+          res.status(200).json({ status: 'unauthenticated' });
+          return;
         }
-
+      
         const  existingUser = await  getUserBySessionToken(sessionToken);
 
         if (!existingUser) {

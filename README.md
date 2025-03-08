@@ -21,15 +21,6 @@ Who's That Pokémon is an interactive quiz game that challenges players to ident
   <img src="https://github.com/user-attachments/assets/3c9a0c71-b090-4c7d-9521-9c542aea8f2f" width="45%" />
 </p>
 
-### Old pictures
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/71d6dae5-97fc-48d8-8fd8-b62a47b44ccc" width="45%" />
-  <img src="https://github.com/user-attachments/assets/d3f1cae7-3401-4534-82eb-9e802a9259d2" width="45%" />
-</p>
-
-
-
 ## Technologies
 - **React**: Modern library for creating modern, responsive and stylish websites with ease [https://react.dev/](https://react.dev/)
 
@@ -41,12 +32,6 @@ Who's That Pokémon is an interactive quiz game that challenges players to ident
 
 ---
 
-## Roadmap
-- Finish user creation / login logic
-- Score multipliers depending on the settings
-
----
-
 ## Getting Started
 
 1. **Clone the Repository**:
@@ -55,14 +40,14 @@ Who's That Pokémon is an interactive quiz game that challenges players to ident
    ```
 
 2. **Install Dependencies**:
-   - For frontend:
+  Navigate to the correct directory using "cd" command, then:
+   - Front / backend:
      ```bash
-     cd pokemon-quiz
      npm i
      ```
 
 3. **Run the Application**:
-   - Frontend:
+   - Front / backend:
      ```bash
      npm run dev
      ```
@@ -82,10 +67,11 @@ Who's That Pokémon is an interactive quiz game that challenges players to ident
 - Please use MUI themes when applying colors
 
 ## Known issues
-- Easy mode doesn't look good on mobile
 - Inspection tool can be used to cheat the Pokemon id
 - Some animatated sprites provided by PokeApi are not animated (like Ferroseed)
-- Doesn't work well with very small devices
+- Restarting game has a chance to mark correct answer by green if it is the same Pokemon as in previous question
+- App doesn't support new Pokemon generations automatically
+
 
 ## Credits
 Fonts: 

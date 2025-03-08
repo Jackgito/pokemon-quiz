@@ -10,18 +10,25 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import './QuizPage.css';
 
-const QuizPage = () => {
+const QuizPage = ({ onGameEnd, onGameRestart }) => {
   const [remainingPokemon, setRemainingPokemon] = useState([]);
   const [currentPokemon, setCurrentPokemon] = useState(null);
   const [isSilhouette, setIsSilhouette] = useState(true);
   const [score, setScore] = useState(0);
-  const [key, setKey] = useState(0); // Key is used to restart the timer
+  const [correctGuesses, setCorrectGuesses] = useState(0)
+  const [key, setKey] = useState(0); // Used to restart the timer
   const [choices, setChoices] = useState([]);
   const [gameEnded, setGameEnded] = useState(false);
 
   const { pokemonData, loading, error, fetchPokemonData } = useFetchPokemonData();
-
   const { difficulty } = useSettings();
+
+  const handleGameOver = () => {
+    if (onGameEnd) {
+      onGameEnd(); // Ensure it is called only if it exists
+    }
+    setGameEnded(true);
+  };
 
   useEffect(() => {
     if (!pokemonData || pokemonData.length === 0) {
@@ -49,24 +56,33 @@ const QuizPage = () => {
     setKey((prevKey) => prevKey + 1);
   };
 
+  // Score * difficulty (1, 2, 3) + 1 (if sound mode) 
+  const scoreMultiplier = () => {
+    const difficulty = localStorage.getItem('difficulty') || 'easy';
+    const quizType = localStorage.getItem('quizType') || '';
+    const difficultyMultipliers = { easy: 1, normal: 2, hard: 3 };
+    let multiplier = difficultyMultipliers[difficulty.toLowerCase()] || 1;
+    if (quizType.toLowerCase() === 'sound') {
+      multiplier += 1; // Add extra point for Sound quiz type
+    }
+    return multiplier;
+  };
+
   // If answer is correct, increment score and move to next question. Otherwise end the game.
   const checkAnswer = (choice) => {
     setIsSilhouette(false);
     if (choice?.correctAnswer) {
-      setScore((prevScore) => prevScore + 1);
+      setScore((prevScore) => prevScore + scoreMultiplier());
+      setCorrectGuesses((prevQuesses) => prevQuesses + 1)
 
       // Filter the remaining Pokémon and store the result in a local variable
-      const updatedRemainingPokemon = remainingPokemon.filter((pokemon) => pokemon.id !== currentPokemon.id)
-
-      setRemainingPokemon((prevRemainingPokemon) =>
-        prevRemainingPokemon.filter((pokemon) => pokemon.id !== currentPokemon.id)
-      );
+      const updatedRemainingPokemon = remainingPokemon.filter((pokemon) => pokemon.id !== currentPokemon.id);
+      setRemainingPokemon(updatedRemainingPokemon);
 
       // Move to next question, unless there are no Pokémon left
       setTimeout(() => {
-        // End the game if no Pokémon are left
         if (updatedRemainingPokemon.length === 0) {
-          setGameEnded(true);
+          handleGameOver(); // Call game over if no Pokémon left
         } else {
           const randomIndex = Math.floor(Math.random() * updatedRemainingPokemon.length);
           setCurrentPokemon(updatedRemainingPokemon[randomIndex]);
@@ -74,10 +90,8 @@ const QuizPage = () => {
           restartTimer();
         }
       }, 3000);
-
     } else {
-      setGameEnded(true) // End the game if the answer is incorrect
-      return;
+      handleGameOver(); // End the game if the answer is incorrect
     }
   };
 
@@ -90,52 +104,41 @@ const QuizPage = () => {
     setGameEnded(false);
     setIsSilhouette(true);
     restartTimer();
+    onGameRestart();
   };
 
-  let timerDuration = 15;
-  if (difficulty === 'Normal' || difficulty === 'Hard') { timerDuration = 10; }
-
   return (
-    <>
-      <div className="page-container">
-
-        {loading && 
-          <div>
-            <CircularProgress size={200} style={{marginTop: 200}} />
-          </div>
-        }
-        {error && <div>Error: {error}</div>}
-        {!choices && <div>No choices available</div>}
-
-        {!loading && !error && choices && (
-          <>
-            <PokemonCountdown
-              duration={timerDuration}
-              strokeWidth={10}
-              onComplete={checkAnswer}
-              pause={!isSilhouette}
-              key={key}
-              isSilhouette={isSilhouette}
-              pokemonData={currentPokemon}
-              currentPokemon={currentPokemon}
-            />
-            <QuestionCard
-              question={"Who's that Pokémon?"}
-              choices={choices}
-              onAnswer={checkAnswer}
-              isDisabled={!isSilhouette || gameEnded}
-            />
-            <ScoreDisplay score={parseInt(score, 10)} />
-            <GameOver
-              score={score}
-              restartGame={restartGame}
-              gameEnded={gameEnded}
-              correctPokemonName={currentPokemon?.name}
-            />
-          </>
-        )}
-      </div>
-    </>
+    <div className="page-container">
+      {loading && <CircularProgress size={200} style={{ marginTop: 200 }} />}
+      {error && <div>Error: {error}</div>}
+      {!loading && !error && choices && (
+        <>
+          <PokemonCountdown
+            duration={difficulty === 'Hard' ? 10 : 15}
+            strokeWidth={10}
+            onComplete={checkAnswer}
+            pause={!isSilhouette}
+            key={key}
+            isSilhouette={isSilhouette}
+            pokemonData={currentPokemon}
+          />
+          <QuestionCard
+            question={"Who's that Pokémon?"}
+            choices={choices}
+            onAnswer={checkAnswer}
+            isDisabled={!isSilhouette || gameEnded}
+          />
+          <ScoreDisplay score={score} />
+          <GameOver
+            score={score}
+            restartGame={restartGame}
+            gameEnded={gameEnded}
+            correctPokemonName={currentPokemon?.name}
+            correctGuesses={correctGuesses}
+          />
+        </>
+      )}
+    </div>
   );
 };
 

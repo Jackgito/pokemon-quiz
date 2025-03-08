@@ -58,9 +58,11 @@ const LoginProvider = ({ children }) => {
         }
 
         try {
-            const response = await fetch(`${backendUrl}/api/auth/logout`);
+            const response = await fetch(`${backendUrl}/api/auth/logout`, {
+              credentials: 'include'
+            });
             if (response.ok) {
-                showToast('Log out succesfull', `User ${user.username} logged out`, 'success');
+                showToast('Log out succesfull', ``, 'success');
             }
         } catch (err) {
             console.log(err);
@@ -86,7 +88,7 @@ const LoginProvider = ({ children }) => {
         };
 
         try {
-            const response = await fetch(`${backendUrl}/api/auth/login`, options);
+            const response = await fetch(`${backendUrl}/api/auth/login`, options)
 
             if (response.ok) {
                 const data = await response.json();
@@ -113,7 +115,10 @@ const LoginProvider = ({ children }) => {
         };
 
         try {
-            const response = await fetch(`${backendUrl}/api/auth/register`, options);
+            const response = await fetch(`${backendUrl}/api/auth/register`, options, {
+              credentials: 'include'
+            });
+
             if (response.ok) {
                 const user = await response.json();
                 showToast('Registration successful', 'Login with your new account', 'success');

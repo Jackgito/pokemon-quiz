@@ -10,7 +10,6 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName, correctGu
   const [showConfetti, setShowConfetti] = useState(false);
   const [effectTriggered, setEffectTriggered] = useState(false);
   const { showToast } = useContext(ToastContext);
-  console.log(correctGuesses)
 
   const { getUser } = useLogin();
   const { getSelectedGenerations } = useSettings();
@@ -69,6 +68,7 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName, correctGu
     let options = {
       method: "POST",
       mode: "cors",
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
       },
@@ -85,6 +85,7 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName, correctGu
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
       const response = await fetch(`${backendUrl}/api/leaderboard/add`, options);
+      
       const result = await response.json();
       return result;
     } catch (err) {

@@ -1,0 +1,55 @@
+.question-timer-container {
+  position: relative;
+  display: inline-block;
+  margin-top: 100px;
+}
+
+.question-timer-svg {
+  display: block;
+  z-index: 2;
+}
+
+.question-timer-text {
+
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the number */
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  color: rgb(35,35,35);
+}
+
+.pokemon-container {
+  position: absolute;
+  z-index: 2;
+  top: 60%; /* Adjust this value to move the image lower */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pokemon-image {
+  width: 100%;
+  height: 100%;
+  transition: filter 0.5s ease;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.silhouette {
+  filter: brightness(0) grayscale(1);
+}
+
+.no-silhouette {
+  filter: none;
+  /* image-rendering: pixelated; */
+}
+
+.retro-mode {
+  width: 60% !important;
+  height: 60% !important;
+}

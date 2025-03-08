@@ -35,8 +35,10 @@ const MultipleChoiceAnswers = ({ choices, isDisabled, handleAnswer }) => {
     handleAnswer(choice);
   };
 
+  const containerClass = choices.length <= 3 ? 'multiple-choice-container three-or-less' : 'multiple-choice-container';
+
   return (
-    <div className="multiple-choice-container">
+    <div className={containerClass}>
       {choices.map((choice, index) => (
         <div
           key={index}

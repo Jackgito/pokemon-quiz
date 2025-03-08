@@ -17,6 +17,7 @@
   cursor: pointer;
   background-color: #222224;
   transition: border-color 0.3s ease;
+  width: 100%;
 }
 
 .answer-container {
@@ -106,5 +107,13 @@ h2 {
 
   .answer-card {
     font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 769px) {
+  .multiple-choice-container.three-or-less {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 }

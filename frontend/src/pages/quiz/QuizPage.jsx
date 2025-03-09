@@ -105,6 +105,7 @@ const QuizPage = ({ onGameEnd, onGameRestart }) => {
     setRemainingPokemon([...pokemonData]);
     setCurrentPokemon(pokemonData[randomIndex]);
     setScore(0);
+    setCorrectGuesses(0);
     setGameEnded(false);
     setIsSilhouette(true);
     restartTimer();

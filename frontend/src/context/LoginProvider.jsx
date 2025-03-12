@@ -14,7 +14,6 @@ const LoginProvider = ({ children }) => {
     }, []);
 
     const fetchUser = async () => {
-      if (!user) return;
       try {
           const response = await fetch(`${backendUrl}/api/user`, {
             credentials: 'include'

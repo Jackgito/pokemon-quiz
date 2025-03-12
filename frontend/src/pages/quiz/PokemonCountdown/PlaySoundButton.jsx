@@ -1,33 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
+import useSound from '../../../hooks/useSound';
 
 const PlaySoundButton = ({ cryUrl }) => {
+  const playSound = useSound();
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = React.useRef(null);
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = 0.05; // Decrease volume
-      audioRef.current.play();
-      setIsPlaying(true);
-    }
-  }, [cryUrl]);
 
   const handlePlayPause = () => {
-    if (!audioRef.current) return;
-
     if (isPlaying) {
-      audioRef.current.pause();
+      setIsPlaying(false);
     } else {
-      audioRef.current.play();
+      playSound(cryUrl);
+      setIsPlaying(true);
+      setTimeout(() => setIsPlaying(false), 3000); // Assuming average sound duration
     }
-    setIsPlaying(!isPlaying);
-  };
-
-  const handleAudioEnd = () => {
-    setIsPlaying(false);
   };
 
   return (
@@ -37,14 +25,8 @@ const PlaySoundButton = ({ cryUrl }) => {
         color="secondary"
         size='large'
       >
-        {isPlaying ? <PauseIcon sx={{fontSize: 108}}/> : <PlayArrowIcon sx={{fontSize: 108}}/>}
+        {isPlaying ? <PauseIcon sx={{ fontSize: 108 }} /> : <PlayArrowIcon sx={{ fontSize: 108 }} />}
       </IconButton>
-      <audio
-        ref={audioRef}
-        src={cryUrl}
-        onEnded={handleAudioEnd}
-        preload="auto"
-      />
     </div>
   );
 };

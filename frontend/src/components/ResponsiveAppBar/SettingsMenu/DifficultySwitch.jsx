@@ -3,8 +3,8 @@ import { Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useSettings } from '../../../context/SettingsProvider';
 import InfoButton from "./InfoButton";
 
-const DifficultySwitch = () => {
-    const { difficulty, changeDifficulty } = useSettings();
+const DifficultySwitch = (isDisabled) => {
+    const { difficulty, setDifficulty } = useSettings();
 
     return (
         <Stack direction={"column"} spacing={1} padding={2}>
@@ -15,12 +15,13 @@ const DifficultySwitch = () => {
             <ToggleButtonGroup
               color="primary"
               exclusive
+              disabled={isDisabled.isDisabled}
               variant="outlined"
               orientation="horizontal"
               value={difficulty}
               onChange={(event, value) => {
                 if (value !== null) {
-                  changeDifficulty(value);
+                  setDifficulty(value);
                 }
               }}
             >

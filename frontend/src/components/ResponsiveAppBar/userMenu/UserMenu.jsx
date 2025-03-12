@@ -21,7 +21,6 @@ const UserMenu = ({user}) => {
 		setHighscore(highscore)
 	}
 
-
 	const {
 		logOut
 	} = useLogin()

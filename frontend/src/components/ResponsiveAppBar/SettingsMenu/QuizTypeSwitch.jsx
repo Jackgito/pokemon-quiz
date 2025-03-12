@@ -2,7 +2,7 @@ import { ToggleButton, ToggleButtonGroup, Stack, Typography } from '@mui/materia
 import { useSettings } from '../../../context/SettingsProvider';
 import InfoButton from './InfoButton';
 
-const QuizTypeSwitch = () => {
+const QuizTypeSwitch = (isDisabled) => {
   const { quizType, setQuizType } = useSettings();
 
   const handleQuizTypeChange = (event, newQuizType) => {
@@ -15,9 +15,10 @@ const QuizTypeSwitch = () => {
     <Stack direction={"column"} spacing={1} padding={2}>
       <Typography variant={"Body"} color="textSecondary">
         Quiz Type
-        <InfoButton text={"Retro: 2D pixel images\nModern: 3D animations\nSound: Pokemon cries. +1 point after score multipliers"} />
+        <InfoButton text={"Retro: 2D pixel images\nModern: 3D animations\nSound: Pokemon cries. 2x score"} />
       </Typography>
       <ToggleButtonGroup
+        disabled={isDisabled.isDisabled}
         value={quizType}
         exclusive
         onChange={handleQuizTypeChange}

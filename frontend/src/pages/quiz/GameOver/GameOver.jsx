@@ -59,7 +59,7 @@ const GameOver = ({ score, restartGame, gameEnded, correctPokemonName, correctGu
 
   const sendScore = async (score, correctGuesses) => {
     const user = getUser();
-    if (!user) {
+    if (!user || score === 0) {
       // No user logged in, cannot send request
       return { isNewPersonalBest: false, isNewHighScore: false };
     }

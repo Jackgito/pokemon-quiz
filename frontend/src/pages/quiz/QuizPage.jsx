@@ -59,14 +59,14 @@ const QuizPage = ({ onGameEnd, onGameRestart }) => {
     setKey((prevKey) => prevKey + 1);
   };
 
-  // Score * difficulty (1, 2, 3) + 1 (if sound mode) 
+  // Score * difficulty (1, 2, 3) * 2 (if sound mode) 
   const scoreMultiplier = () => {
     const difficulty = localStorage.getItem('difficulty') || 'easy';
     const quizType = localStorage.getItem('quizType') || '';
     const difficultyMultipliers = { easy: 1, normal: 2, hard: 3 };
     let multiplier = difficultyMultipliers[difficulty.toLowerCase()] || 1;
     if (quizType.toLowerCase() === 'sound') {
-      multiplier += 1; // Add extra point for Sound quiz type
+      multiplier * 2;
     }
     return multiplier;
   };
@@ -93,7 +93,7 @@ const QuizPage = ({ onGameEnd, onGameRestart }) => {
           setIsSilhouette(true);
           restartTimer();
         }
-      }, 3000);
+      }, 2000);
     } else {
       handleGameOver(); // End the game if the answer is incorrect
     }

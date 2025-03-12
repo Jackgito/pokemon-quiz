@@ -29,7 +29,6 @@ const LoginProvider = ({ children }) => {
       } catch (error) {
           // Silently handle any network errors
           setUser(null);
-
       }
     };
   

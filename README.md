@@ -71,11 +71,23 @@ Who's That Pokémon is an interactive quiz game that challenges players to ident
 - Restarting game has a chance to mark correct answer by green if it is the same Pokemon as in previous question
 - App doesn't support new Pokemon generations automatically
 - Answering all Pokemon correct shows "failed" toast.
-- Number of guesses is not displayed correctly for everyone
+- When song changes, error is displayed in console (does now affect app functionality)
 
 ## Credits
 Fonts: 
 - https://www.1001fonts.com/orbitron-font.html
+
+Songs:
+- Accumula Town (Furret Walk) https://www.youtube.com/watch?v=RVdZs8Vh0O0
+
+- Driftveil City (original)
+
+- Skyarrow Bridge (Zame Remaster): https://www.youtube.com/watch?v=BkuotsjIzEQ
+
+- Unova Pokemon Center (Zame Remaster): https://www.youtube.com/watch?v=4ZMeMBrib80
+
+- Lake Valor (Zame Remaster): https://www.youtube.com/watch?v=yyh_EbSJ9_U
+
 
 ## License
 This project is licensed under the [MIT License](LICENSE).

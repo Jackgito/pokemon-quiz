@@ -35,9 +35,9 @@ function getStyles(name, genName, theme) {
   };
 }
 
-const GenerationsSwitch = () => {
+const GenerationsSwitch = (isDisabled) => {
   const theme = useTheme();
-  const { generations, changeGenerations } = useSettings();
+  const { generations, setGenerations } = useSettings();
   const selectedGenerations = generations.filter(gen => gen.selected).map(gen => gen.name);
 
   const handleChange = (event) => {
@@ -48,7 +48,7 @@ const GenerationsSwitch = () => {
           ...gen,
           selected: value.includes(gen.name),
       }));
-      changeGenerations(updatedGenerations);
+      setGenerations(updatedGenerations);
   };
 
   return (
@@ -63,6 +63,7 @@ const GenerationsSwitch = () => {
               <Select
                   labelId="demo-multiple-chip-label"
                   id="demo-multiple-chip"
+                  disabled={isDisabled.isDisabled} 
                   multiple
                   value={selectedGenerations}
                   onChange={handleChange}

@@ -31,11 +31,7 @@ function ResponsiveAppBar({ gameStarted }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
-    if (!gameStarted) {
-      setMobileOpen((prevState) => !prevState);
-    } else {
-      alert("You can't open settings while the game is in progress.");
-    }
+    setMobileOpen((prevState) => !prevState);
   };
 
   const handleLeaderboardClick = (event) => {
@@ -65,10 +61,11 @@ function ResponsiveAppBar({ gameStarted }) {
       </Stack>
       <Divider />
       <Stack direction={"column"} divider={<Divider orientation="horizontal" flexItem />}>
-        <DifficultySwitch />
-        <GenerationsSelector />
-        <QuizTypeSwitch />
-        <SoundSlider />
+        <DifficultySwitch isDisabled={gameStarted}/>
+        <GenerationsSelector isDisabled={gameStarted}/>
+        <QuizTypeSwitch isDisabled={gameStarted}/>
+        <SoundSlider type={"sfx"}/>
+        <SoundSlider type={"music"}/>
       </Stack>
     </Box>
   );
@@ -86,7 +83,6 @@ function ResponsiveAppBar({ gameStarted }) {
             edge="start"
             onClick={handleDrawerToggle}
             className="shake"
-            disabled={gameStarted} // Disable the button when the game is running
           >
             <MenuIcon />
           </IconButton>

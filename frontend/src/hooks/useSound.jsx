@@ -31,19 +31,26 @@ const useSound = () => {
 
   const playSound = useCallback((soundIdentifier) => {
     let audio;
+    let isApiUrl = false;
     
     // Check if soundIdentifier is a predefined sound name
     if (audioMap[soundIdentifier]) {
       audio = audioMap[soundIdentifier];
     } 
-    // Check if soundIdentifier is a valid URL
+    // Check if soundIdentifier is a valid URL (API sound)
     else if (typeof soundIdentifier === "string" && soundIdentifier.startsWith("http")) {
       audio = new Audio(soundIdentifier);
+      isApiUrl = true; // Mark as API URL
     }
-    
+  
     if (audio) {
       const storedVolume = localStorage.getItem("sfxVolume");
-      const volumeLevel = storedVolume ? Number(storedVolume) / 100 : 1;
+      let volumeLevel = storedVolume ? Number(storedVolume) / 100 : 1;
+      
+      if (isApiUrl) {
+        volumeLevel /= 2; // Reduce volume by half for API sounds
+      }
+  
       audio.volume = volumeLevel;
       audio.currentTime = 0; // Restart sound
       audio.play();
@@ -51,7 +58,7 @@ const useSound = () => {
       console.warn(`Sound "${soundIdentifier}" not found or invalid URL.`);
     }
   }, [audioMap]);
-
+  
   return playSound;
 };
 

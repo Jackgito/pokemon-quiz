@@ -35,6 +35,7 @@ const WrittenAnswer = ({ correctAnswer, isDisabled, handleAnswer }) => {
         fullWidth
         inputRef={inputRef} // Attach ref to the input element
         sx={{
+          marginTop: "8px",
           input: { color: 'white' },
           '& .MuiOutlinedInput-root': {
             '& fieldset': {

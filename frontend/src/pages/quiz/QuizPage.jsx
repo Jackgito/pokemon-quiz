@@ -65,8 +65,9 @@ const QuizPage = ({ onGameEnd, onGameRestart }) => {
     const quizType = localStorage.getItem('quizType') || '';
     const difficultyMultipliers = { easy: 1, normal: 2, hard: 3 };
     let multiplier = difficultyMultipliers[difficulty.toLowerCase()] || 1;
-    if (quizType.toLowerCase() === 'sound') {
-      multiplier * 2;
+
+    if (quizType=== 'Sound') {
+      multiplier *= 2;
     }
     return multiplier;
   };

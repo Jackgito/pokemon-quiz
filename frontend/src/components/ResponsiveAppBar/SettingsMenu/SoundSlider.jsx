@@ -12,7 +12,8 @@ const SoundSlider = ({ type }) => {
   const { playMusic, pauseMusic, audioRef } = useMusic();
   
   // State to control the volume
-  const defaultVolume = type === "music" ? 0 : localStorage.getItem("sfxVolume");
+  const defaultVolume = type === "music" ? 0 : parseInt(localStorage.getItem("sfxVolume"), 10);
+
   const [volume, setVolume] = useState(defaultVolume);
 
   const handleVolumeChange = (_, newVolume) => {

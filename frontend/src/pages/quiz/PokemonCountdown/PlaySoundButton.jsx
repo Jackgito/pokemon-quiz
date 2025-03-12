@@ -25,7 +25,7 @@ const PlaySoundButton = ({ cryUrl }) => {
         color="secondary"
         size='large'
       >
-        {isPlaying ? <PauseIcon sx={{ fontSize: 108 }} /> : <PlayArrowIcon sx={{ fontSize: 108 }} />}
+        {isPlaying ? <PauseIcon sx={{ fontSize: 108, fill: "rgb(35,35,35)" }} /> : <PlayArrowIcon sx={{ fontSize: 108, fill: "rgb(35,35,35)" }} />}
       </IconButton>
     </div>
   );

@@ -1,9 +1,20 @@
+import { useEffect } from 'react';
 import { ToggleButton, ToggleButtonGroup, Stack, Typography } from '@mui/material';
 import { useSettings } from '../../../context/SettingsProvider';
+import { useToast } from '../../../context/ToastProvider';
 import InfoButton from './InfoButton';
 
 const QuizTypeSwitch = (isDisabled) => {
-  const { quizType, setQuizType } = useSettings();
+  const { quizType, setQuizType, generations } = useSettings();
+
+  const { showToast } = useToast();
+
+  useEffect(() => {
+    const isGenIXSelected = generations.some((gen) => gen.value === 9 && gen.selected);
+    if (quizType === "Modern" && isGenIXSelected) {
+      showToast("Warning", "Gen 9 doesn't contain animated sprites, only images.", "warning");
+    }
+  }, [quizType, generations, showToast]);
 
   const handleQuizTypeChange = (event, newQuizType) => {
     if (newQuizType !== null) {

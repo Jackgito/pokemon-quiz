@@ -53,7 +53,7 @@ const useFetchPokemonData = () => {
             name: capitalize(pokemon.species.name),
             imageUrl: pokemon.sprites?.front_default || null,
             cryUrl: pokemon.cries?.latest || null,
-            animationUrl: pokemon.sprites.other.showdown.front_default,
+            animationUrl: pokemon.sprites.other.showdown.front_default || pokemon.sprites?.front_default,
             types: pokemon.types.map((typeInfo) => capitalize(typeInfo.type.name)),
           }));
   
